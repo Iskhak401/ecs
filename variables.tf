@@ -44,3 +44,16 @@ variable "max_ecr_image"{
     type= number
     default = 20
 }
+
+variable "redis_node_type"{
+  description = "redis instance node type"
+
+  default = "cache.t4g.small"
+}
+
+
+variable "redis_num_cache_nodes"{
+  description = "number of redis nodes running"
+
+  default = 1
+}

@@ -17,4 +17,6 @@ locals{
     anywhere_ip = "0.0.0.0/0"
 
     cloud_custom_header_value = random_password.generated_header_value.result
+
+    mobidev_identity_api = "" #pending_resource
 }
