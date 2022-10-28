@@ -21,7 +21,7 @@ module "content_alb" {
 
   vpc_id             = module.vpc.vpc_id
   subnets            = module.vpc.public_subnets
-  security_groups    = [aws_security_group.content_alb_sg]
+  security_groups    = [aws_security_group.content_alb_sg.id]
 
 #   access_logs = {
 #     bucket = "alb-logs-s3"
@@ -70,10 +70,7 @@ module "content_alb" {
       }]
 
       conditions = [{
-        http_headers = [{
-          http_header_name = "x-Front-Header"
-          values           = [local.cloud_custom_header_value]
-        }]
+        path_patterns = ["/*"]
       }]
     },
     {
@@ -82,16 +79,18 @@ module "content_alb" {
 
       actions = [{
         type = "forward"
-        target_groups = [
-          {
-            target_group_index = 0
-            weight             = 1
-          }
-        ]
+        target_group_index = 0
+         
         stickiness = {
           enabled  = true
           duration = 3600
         }
+      }]
+      conditions = [{
+        http_headers = [{
+          http_header_name = local.cloud_custom_header_name
+          values           = [local.cloud_custom_header_value]
+        }]
       }]
     },
   ]
@@ -107,7 +106,7 @@ module "identity_alb" {
 
   vpc_id             = module.vpc.vpc_id
   subnets            = module.vpc.public_subnets
-  security_groups    = [aws_security_group.identity_alb_sg]
+  security_groups    = [aws_security_group.identity_alb_sg.id]
 
 #   access_logs = {
 #     bucket = "alb-logs-s3"
@@ -156,10 +155,7 @@ module "identity_alb" {
       }]
 
       conditions = [{
-        http_headers = [{
-          http_header_name = "x-Front-Header"
-          values           = [local.cloud_custom_header_value]
-        }]
+        path_patterns = ["/*"]
       }]
     },
     {
@@ -167,17 +163,18 @@ module "identity_alb" {
       priority                = 1
 
       actions = [{
-        type = "forward"
-        target_groups = [
-          {
-            target_group_index = 0
-            weight             = 1
-          }
-        ]
+        type = "forward"        
+        target_group_index = 0        
         stickiness = {
           enabled  = true
           duration = 3600
         }
+      }]
+      conditions = [{
+        http_headers = [{
+          http_header_name = local.cloud_custom_header_name
+          values           = [local.cloud_custom_header_value]
+        }]
       }]
     },
   ]
@@ -243,7 +240,7 @@ resource "aws_security_group" "content_rds_sg" {
     from_port        = 5432
     to_port          = 5432
     protocol         = "tcp"
-    cidr_blocks      = [module.vpc.cidr_block] 
+    cidr_blocks      = [module.vpc.vpc_cidr_block] 
   }
 
   egress {
@@ -265,7 +262,7 @@ resource "aws_security_group" "redis_sg" {
     from_port        = 6379
     to_port          = 6379
     protocol         = "tcp"
-    cidr_blocks      = [module.vpc.cidr_block] 
+    cidr_blocks      = [module.vpc.vpc_cidr_block] 
   }
 
   egress {

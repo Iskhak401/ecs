@@ -11,7 +11,7 @@ resource "aws_elasticache_cluster" "content_redis" {
   engine_version       = "6.2"
   port                 = 6379
   subnet_group_name    = module.vpc.elasticache_subnet_group_name
-  security_group_ids   = aws_security_group.redis_sg.id
+  security_group_ids   = [aws_security_group.redis_sg.id]
 }
 
 ################################################################################

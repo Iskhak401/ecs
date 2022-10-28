@@ -16,7 +16,11 @@ locals{
     max_ecr = var.max_ecr_image
     anywhere_ip = "0.0.0.0/0"
 
+    cloud_custom_header_name = var.cloudfront_custom_header_name
     cloud_custom_header_value = random_password.generated_header_value.result
 
     mobidev_identity_api = "" #pending_resource
+    api_domain = var.api_domain
+    content_subdomain = var.content_subdomain
+    identity_subdomain = var.identity_subdomain
 }

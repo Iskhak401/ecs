@@ -57,3 +57,27 @@ variable "redis_num_cache_nodes"{
 
   default = 1
 }
+
+variable "cloudfront_custom_header_name"{
+  description = "custom header to be use between cf and alb"
+
+  default = "X-Front-Header"
+}
+
+variable "api_domain"{
+  description = "domain for api"
+
+  default="api.peer.inc"
+}
+
+variable "content_subdomain"{
+  description = "domain for api"
+
+  default="api.peer.inc"
+}
+
+variable "identity_subdomain"{
+  description = "domain for api"
+
+  default="api.peer.inc"
+}

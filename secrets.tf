@@ -16,7 +16,7 @@ resource "aws_secretsmanager_secret" "identity_secret" {
 ################################################################################
 
 resource "aws_secretsmanager_secret_version" "content_version" {
-  secret_id = aws_secretsmanager_secret.content_api.id
+  secret_id = aws_secretsmanager_secret.content_secret.id
   secret_string = jsonencode({
     "APPCONFIG__QUANTUMLEDGERNAME" = local.qldb_ledger
     "APPCONFIG__GOOGLEAPIKEY" = local.google_key
@@ -29,7 +29,7 @@ resource "aws_secretsmanager_secret_version" "content_version" {
 }
 
 resource "aws_secretsmanager_secret_version" "identity_version" {
-  secret_id = aws_secretsmanager_secret.content_api.id
+  secret_id = aws_secretsmanager_secret.identity_secret.id
   secret_string = jsonencode({
     "AppConfig__IdentityServerUrl" = local.mobidev_identity_api
   })
