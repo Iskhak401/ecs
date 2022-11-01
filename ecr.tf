@@ -5,7 +5,7 @@
 module "content_ecr" {
   source = "terraform-aws-modules/ecr/aws"
 
-  repository_name = "${local.name}-content-ecr"
+  repository_name = "${local.name}-${local.content_resource}-ecr"
   
   repository_lifecycle_policy = jsonencode({
     rules = [
@@ -29,7 +29,7 @@ module "content_ecr" {
 module "identity_ecr" {
   source = "terraform-aws-modules/ecr/aws"
 
-  repository_name = "${local.name}-identity-ecr"
+  repository_name = "${local.name}-${local.identity_resource}-ecr"
   
   repository_lifecycle_policy = jsonencode({
     rules = [

@@ -5,18 +5,6 @@ variable "aws_region" {
   default = "us-west-2"
 }
 
-variable "aws_access_key" {
-  description = "AWS user access key."
-
-  type = string  
-}
-
-variable "aws_secret_key" {
-  description = "AWS user secret key."
-
-  type = string  
-}
-
 variable "environment" {
   description = "dev | staging | production"
 
@@ -80,4 +68,22 @@ variable "identity_subdomain"{
   description = "domain for api"
 
   default="api.peer.inc"
+}
+
+variable "container_port"{
+  description = "docker container exposed port"
+
+  default = 5000
+}
+
+variable "task_cpu_unit"{
+  description = "ecs task definition cpu unit size"
+
+  default = 512
+}
+
+variable "task_memory"{
+  description = "ecstask definition cpu unit size"
+
+  default = 1024
 }
