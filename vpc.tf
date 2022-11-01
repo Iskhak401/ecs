@@ -21,3 +21,29 @@ module "vpc" {
   database_subnets = ["10.0.4.0/24", "10.0.5.0/24"]
   elasticache_subnets = ["10.0.6.0/24", "10.0.7.0/24"] 
 }
+
+################################################################################
+# setup vpc endpoints
+################################################################################
+
+
+data "aws_security_group" "default" {
+  name   = "default"
+  vpc_id = module.vpc.vpc_id
+}
+
+
+
+module "vpc_endpoint" {
+  source = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
+
+  vpc_id             = module.vpc.vpc_id
+  security_group_ids = [data.aws_security_group.default.id]
+
+  endpoints = {
+    s3 = {
+      service = "s3"
+      tags    = { Name = "${local.name}-s3-vpc-endpoint" }
+    }
+  }
+}

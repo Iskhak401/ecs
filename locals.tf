@@ -10,6 +10,8 @@ locals{
     app_secret_key = "" #pending_resource
     redis_string = "" #pending_resource
     postgres_string = "" #pending_resource
+    s3_bucket = "" #pending_resource
+    
 
     content_resource = "content"
     identity_resource = "identity"
@@ -23,4 +25,8 @@ locals{
     api_domain = var.api_domain
     content_subdomain = var.content_subdomain
     identity_subdomain = var.identity_subdomain
+
+    rds_engine = var.db_engine
+    rds_password = random_password.generated_rds_password
+    rds_user = var.db_username
 }

@@ -21,6 +21,7 @@ resource "aws_secretsmanager_secret_version" "content_version" {
     "APPCONFIG__QUANTUMLEDGERNAME" = local.qldb_ledger
     "APPCONFIG__GOOGLEAPIKEY" = local.google_key
     "APPCONFIG__NEARBYRADIUS" = local.nearbyradius
+    "APPCONFIG__S3BUCKET" = local.s3_bucket
     "AWS__AccessKey" = local.app_access_key
     "AWS__SecretKey" = local.app_secret_key
     "ConnectionStrings__Redis" = local.redis_string

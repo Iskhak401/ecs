@@ -27,12 +27,11 @@ data "aws_iam_policy_document" "bucket_policy" {
   statement {
     effect = "Allow"
     principals {
-      type        = "AWS"
+      type        = "*"
       identifiers = ["*"]
     }
 
     actions = [
-      "s3:ListBucket",
       "s3:GetObject"
     ]
 

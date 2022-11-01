@@ -83,7 +83,37 @@ variable "task_cpu_unit"{
 }
 
 variable "task_memory"{
-  description = "ecstask definition cpu unit size"
+  description = "ecs task definition cpu memory size"
 
   default = 1024
+}
+
+variable "db_engine_version"{
+  description = "db engine version number"
+
+  default= 14.4
+}
+
+variable "db_instance_class" {
+  description= "instanes class to be use in rds aurora"
+
+  default= "db.t3.micro"
+}
+
+variable "db_engine"{
+  description= "engine to be use in aurora db"
+
+  default= "aurora-postgresql"
+}
+
+variable "db_cluster_size"{
+  description= "number of instances that will be running in the cluster"
+
+  default=2
+}
+
+variable "db_username"{
+  description= "user to access db"
+
+  default= "content_db_user"
 }
