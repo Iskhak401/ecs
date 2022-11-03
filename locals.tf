@@ -3,14 +3,14 @@ locals{
     env = var.environment
     region = var.aws_region
 
-    qldb_ledger = "" #pending_resource
-    google_key = "" #pending_resource
-    nearbyradius = "" #pending_resource
-    app_access_key = "" #pending_resource
-    app_secret_key = "" #pending_resource
-    redis_string = "" #pending_resource
-    postgres_string = "" #pending_resource
-    s3_bucket = "" #pending_resource
+    qldb_ledger = aws_qldb_ledger.content_ledger.name
+    google_key = var.google_api_key
+    nearbyradius = var.nearby_radius
+    app_access_key = module.app_user.iam_access_key_id
+    app_secret_key = module.app_user.iam_access_key_secret
+    redis_string = data.aws_elasticache_replication_group.content_redis_replica.primary_endpoint_address
+    postgres_string = "Server=${module.content_rds.cluster_endpoint};Port=${var.db_port};Database=${local.name}-${local.content_resource}-${local.env};User Id=${var.db_username};password=${local.rds_password};Timeout=20;"
+    s3_bucket = module.s3_bucket.s3_bucket_id
     
 
     content_resource = "content"
@@ -21,12 +21,12 @@ locals{
     cloud_custom_header_name = var.cloudfront_custom_header_name
     cloud_custom_header_value = random_password.generated_header_value.result
 
-    mobidev_identity_api = "" #pending_resource
+    mobidev_identity_api = var.mobidev_identity_api
     api_domain = var.api_domain
     content_subdomain = var.content_subdomain
     identity_subdomain = var.identity_subdomain
 
     rds_engine = var.db_engine
-    rds_password = random_password.generated_rds_password
+    rds_password = random_password.generated_rds_password.result
     rds_user = var.db_username
 }

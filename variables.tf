@@ -43,7 +43,13 @@ variable "redis_node_type"{
 variable "redis_num_cache_nodes"{
   description = "number of redis nodes running"
 
-  default = 1
+  default = 2
+}
+
+variable "redis_port"{
+  description= "redis port configuration"
+
+  default= 6379
 }
 
 variable "cloudfront_custom_header_name"{
@@ -97,7 +103,7 @@ variable "db_engine_version"{
 variable "db_instance_class" {
   description= "instanes class to be use in rds aurora"
 
-  default= "db.t3.micro"
+  default= "db.t4g.medium"
 }
 
 variable "db_engine"{
@@ -112,8 +118,32 @@ variable "db_cluster_size"{
   default=2
 }
 
+variable "db_port"{
+  description= "db connection port"
+
+  default=5432
+}
+
 variable "db_username"{
   description= "user to access db"
 
   default= "content_db_user"
+}
+
+variable "google_api_key"{
+  description= "Google API key for maps"
+
+  default= ""
+}
+
+variable "nearby_radius"{
+  description= "Nearby radius"
+
+  default= 1500
+}
+
+variable "mobidev_identity_api"{
+  description = "mobidev identity api"
+
+  default= "beta.api.peer.inc"
 }

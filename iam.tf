@@ -6,12 +6,59 @@ module "app_user"{
     source  = "terraform-aws-modules/iam/aws//modules/iam-user"
 
     name = "${local.name}-app-user"
+
+    create_iam_user_login_profile = false
+    create_iam_access_key         = true
 }
 
+
+module "user_group"{
+    source  = "terraform-aws-modules/iam/aws//modules/iam-group-with-policies"
+    version = "5.5.5"
+
+    name = "${local.name}-app-group"
+    group_users = [module.app_user.iam_user_name]
+
+    custom_group_policy_arns = [
+        aws_iam_policy.qldb_iam_policy.arn,
+        data.aws_iam_policy.AmazonEC2FullAccess.arn,
+        data.aws_iam_policy.AmazonEC2ContainerRegistryFullAccess.arn,
+        data.aws_iam_policy.AmazonS3FullAccess.arn,
+        data.aws_iam_policy.ReadOnlyAccess.arn,
+        data.aws_iam_policy.AmazonECS_FullAccess.arn
+    ]
+}
 
 ################################################################################
 # setup iam policies and roles
 ################################################################################
+
+resource "aws_iam_role" "ecsTaskExecutionRole" {
+  name = "ecsTaskExecutionRole"
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  assume_role_policy = jsonencode({
+    "Version": "2008-10-17",
+    "Statement": [
+            {
+                "Sid": "",
+                "Effect": "Allow",
+                "Principal": {
+                    "Service": "ecs-tasks.amazonaws.com"
+                },
+                "Action": "sts:AssumeRole"
+            }
+        ]
+    })
+
+    managed_policy_arns = [
+        data.aws_iam_policy.AmazonECSTaskExecutionRolePolicy.arn,
+        aws_iam_policy.secrets_iam_policy.arn
+    ]
+
+}
+
 
 #qldb
 data "aws_iam_policy_document" "qldb_role" {
@@ -83,4 +130,36 @@ resource "aws_iam_policy" "secrets_iam_policy" {
     policy  = data.aws_iam_policy_document.qldb_role.json
 }
 
-#TODO create ecsTaskExecutionRole
+
+
+
+################################################################################
+# setup aws managed policies
+################################################################################
+data "aws_iam_policy" "AmazonEC2FullAccess" {
+  name = "AmazonEC2FullAccess"
+}
+
+data "aws_iam_policy" "SecretsManagerReadWrite" {
+  name = "SecretsManagerReadWrite"
+}
+
+data "aws_iam_policy" "AmazonEC2ContainerRegistryFullAccess" {
+  name = "AmazonEC2ContainerRegistryFullAccess"
+}
+
+data "aws_iam_policy" "AmazonS3FullAccess" {
+  name = "AmazonS3FullAccess"
+}
+
+data "aws_iam_policy" "ReadOnlyAccess" {
+  name = "ReadOnlyAccess"
+}
+
+data "aws_iam_policy" "AmazonECS_FullAccess" {
+  name = "AmazonECS_FullAccess"
+}
+
+data "aws_iam_policy" "AmazonECSTaskExecutionRolePolicy" {
+  name = "AmazonECSTaskExecutionRolePolicy"
+}

@@ -23,6 +23,7 @@ resource "aws_ecs_task_definition" "content_task_definition" {
   network_mode             = "awsvpc"
   cpu                      = var.task_cpu_unit
   memory                   = var.task_memory
+  execution_role_arn       = aws_iam_role.ecsTaskExecutionRole.arn
   container_definitions    = <<TASK_DEFINITION
 [
     {
@@ -124,6 +125,7 @@ resource "aws_ecs_task_definition" "identity_task_definition" {
   network_mode             = "awsvpc"
   cpu                      = var.task_cpu_unit
   memory                   = var.task_memory
+  execution_role_arn       = aws_iam_role.ecsTaskExecutionRole.arn
   container_definitions    = <<TASK_DEFINITION
 [
     {
@@ -212,7 +214,7 @@ resource "aws_ecs_service" "content_service" {
   task_definition = data.aws_ecs_task_definition.content_task_definition.arn
 
   load_balancer {
-    elb_name = module.content_alb.lb_arn
+    #elb_name = module.content_alb.lb_id
     target_group_arn = module.content_alb.target_group_arns[0]
     container_name = "${local.name}-${local.content_resource}-container"
     container_port = var.container_port
@@ -237,13 +239,14 @@ resource "aws_ecs_service" "identity_service" {
   desired_count = 2
   launch_type = "FARGATE"
   force_new_deployment = true
+
   
 
   # Track the latest ACTIVE revision
   task_definition = data.aws_ecs_task_definition.identity_task_definition.arn
 
   load_balancer {
-    elb_name = module.identity_alb.lb_arn
+    #elb_name = module.identity_alb.lb_id
     target_group_arn = module.identity_alb.target_group_arns[0]
     container_name = "${local.name}-${local.identity_resource}-container"
     container_port = var.container_port

@@ -5,7 +5,7 @@
 module "content_cloudfront" {
   source = "terraform-aws-modules/cloudfront/aws"
 
-  aliases = ["${local.content_subdomain}-${local.env}.${local.api_domain}"]
+  #aliases = ["${local.content_subdomain}-${local.env}.${local.api_domain}"]
 
   comment             = "${local.name} ${local.content_resource} API Cloudfront"
   enabled             = true
@@ -44,18 +44,19 @@ module "content_cloudfront" {
     target_origin_id            = "alb"
     viewer_protocol_policy      = "https-only"
     allowed_methods             = ["GET", "HEAD", "OPTIONS","PUT", "POST","PATCH","DELETE"]
-    cached_methods              = []
+    cached_methods              = ["GET", "HEAD"]
     compress                    = true
     query_string                = true
     origin_request_policy_id    = aws_cloudfront_origin_request_policy.content_origin_policy.id
-    cache_policy_id             = aws_cloudfront_cache_policy.content_cache_policy.id    
+    cache_policy_id             = aws_cloudfront_cache_policy.content_cache_policy.id
+    use_forwarded_values        = false
   }
 }
 
 module "identity_cloudfront" {
   source = "terraform-aws-modules/cloudfront/aws"
 
-  aliases = ["${local.identity_subdomain}-${local.env}.${local.api_domain}"]
+  #aliases = ["${local.identity_subdomain}-${local.env}.${local.api_domain}"]
 
   comment             = "${local.name} ${local.identity_resource} API Cloudfront"
   enabled             = true
@@ -94,11 +95,12 @@ module "identity_cloudfront" {
     target_origin_id            = "alb"
     viewer_protocol_policy      = "https-only"
     allowed_methods             = ["GET", "HEAD", "OPTIONS","PUT", "POST","PATCH","DELETE"]
-    cached_methods              = []
+    cached_methods              = ["GET", "HEAD"]
     compress                    = true
     query_string                = true
-    origin_request_policy_id    = aws_cloudfront_origin_request_policy.content_origin_policy.id
-    cache_policy_id             = aws_cloudfront_cache_policy.content_cache_policy.id
+    origin_request_policy_id    = data.aws_cloudfront_origin_request_policy.content_origin_policy.id
+    cache_policy_id             = data.aws_cloudfront_cache_policy.content_cache_policy.id
+    use_forwarded_values        = false
   }
 }
 
@@ -106,6 +108,10 @@ module "identity_cloudfront" {
 ################################################################################
 # setup origin request policy
 ################################################################################
+
+data "aws_cloudfront_origin_request_policy" "content_origin_policy" {
+  name    = "Managed-AllViewer"
+}
 
 resource "aws_cloudfront_origin_request_policy" "content_origin_policy" {
   name    = "${local.name}-origin-policy"
@@ -124,6 +130,10 @@ resource "aws_cloudfront_origin_request_policy" "content_origin_policy" {
 ################################################################################
 # setup cache policy
 ################################################################################
+
+data "aws_cloudfront_cache_policy" "content_cache_policy" {
+  name        = "Managed-CachingDisabled"
+}
 
 resource "aws_cloudfront_cache_policy" "content_cache_policy" {
   name        = "${local.name}-cache-policy"

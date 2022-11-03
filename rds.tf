@@ -16,12 +16,15 @@ module "content_rds"{
 
     vpc_id = module.vpc.vpc_id
     db_subnet_group_name = module.vpc.database_subnet_group_name
+    vpc_security_group_ids = [ aws_security_group.content_rds_sg.id ]
     create_db_subnet_group = false
     create_security_group = false
     allowed_cidr_blocks = [ module.vpc.vpc_cidr_block ]
 
+    port = var.db_port    
+
     iam_database_authentication_enabled = true
-    master_password = local.rds_user
+    master_password = local.rds_password
     create_random_password = false
 
     apply_immediately = true
@@ -53,7 +56,4 @@ module "content_rds"{
         apply_method = "immediate"
         }
     ]
-        
-    enabled_cloudwatch_logs_exports = ["audit", "error", "general", "slowquery"]
-
 }
