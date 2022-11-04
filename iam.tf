@@ -127,7 +127,7 @@ data "aws_iam_policy_document" "secrets_role"{
 
 resource "aws_iam_policy" "secrets_iam_policy" {
     name    = "${local.name}-secret-policy"
-    policy  = data.aws_iam_policy_document.qldb_role.json
+    policy  = data.aws_iam_policy_document.secrets_role.json
 }
 
 

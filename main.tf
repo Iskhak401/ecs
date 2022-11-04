@@ -1,4 +1,9 @@
 terraform {
+  backend "s3" {
+    bucket = "peer-terraform-state"
+    key    = "global/state/peer-api"
+    region = "us-west-2"
+  }
   required_providers {
     aws = {
       source = "hashicorp/aws"

@@ -24,6 +24,7 @@ module "content_rds"{
     port = var.db_port    
 
     iam_database_authentication_enabled = true
+    master_username = local.rds_user
     master_password = local.rds_password
     create_random_password = false
 
