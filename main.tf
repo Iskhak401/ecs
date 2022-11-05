@@ -28,3 +28,9 @@ provider "aws" {
     }
   }
 }
+
+provider "aws" {
+  alias   = "cloudfront-global"  
+  profile = "default"
+  region  = "us-east-1" // NOTE: This needs to be us-east-1 for WAFv2 on scope CLOUDFRONT
+}

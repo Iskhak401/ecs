@@ -13,6 +13,7 @@ module "content_cloudfront" {
   price_class         = "PriceClass_All"
   retain_on_delete    = false
   wait_for_deployment = false  
+  web_acl_id          = aws_wafv2_web_acl.peer_cloudfront_acl.arn
 
 #   logging_config = {
 #     bucket = module.log_bucket.s3_bucket_bucket_domain_name
@@ -63,7 +64,8 @@ module "identity_cloudfront" {
   is_ipv6_enabled     = true
   price_class         = "PriceClass_All"
   retain_on_delete    = false
-  wait_for_deployment = false  
+  wait_for_deployment = false 
+  web_acl_id          = aws_wafv2_web_acl.peer_cloudfront_acl.arn
 
 #   logging_config = {
 #     bucket = module.log_bucket.s3_bucket_bucket_domain_name
