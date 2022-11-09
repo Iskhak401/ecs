@@ -30,7 +30,6 @@ provider "aws" {
 }
 
 provider "aws" {
-  alias   = "cloudfront-global"  
-  profile = "default"
+  alias   = "cloudfront-global"
   region  = "us-east-1" // NOTE: This needs to be us-east-1 for WAFv2 on scope CLOUDFRONT
 }
