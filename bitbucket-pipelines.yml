@@ -6,6 +6,8 @@ pipelines:
             - step:
                 deployment: "Development"
                 script:
-                    - terraform init -backend-config="access_key=${AWS_ACCESS_KEY_ID}" -backend-config="secret_key=${AWS_SECRET_ACCESS_KEY}" -backend-config="bucket=${AWS_S3_STATE_BUCKET}"                  
+                    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+                    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+                    - terraform init -backend-config="bucket=${AWS_S3_STATE_BUCKET}"                  
                     - terraform plan
                     - terraform apply -input=false -auto-approve
