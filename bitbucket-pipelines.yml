@@ -8,7 +8,7 @@ definitions:
                 - terraform init -backend-config="bucket=${AWS_S3_STATE_BUCKET}"                  
                 - terraform plan                
             artifacts:
-                - .terraform
+                - .terraform/*
     - step: &apply-plan
             trigger: manual
             script:                                        
