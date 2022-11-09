@@ -11,6 +11,15 @@ module "app_user"{
     create_iam_access_key         = true
 }
 
+module "cicd_user"{
+    source  = "terraform-aws-modules/iam/aws//modules/iam-user"
+
+    name = "${local.name}-cicd-user"
+
+    create_iam_user_login_profile = false
+    create_iam_access_key         = true
+}
+
 
 module "user_group"{
     source  = "terraform-aws-modules/iam/aws//modules/iam-group-with-policies"
@@ -25,6 +34,20 @@ module "user_group"{
         data.aws_iam_policy.AmazonEC2ContainerRegistryFullAccess.arn,
         data.aws_iam_policy.AmazonS3FullAccess.arn,
         data.aws_iam_policy.ReadOnlyAccess.arn,
+        data.aws_iam_policy.AmazonECS_FullAccess.arn
+    ]
+}
+
+module "cicd_group"{
+    source  = "terraform-aws-modules/iam/aws//modules/iam-group-with-policies"
+    version = "5.5.5"
+
+    name = "${local.name}-cicd-group"
+    group_users = [module.cicd_user.iam_user_name]
+
+    custom_group_policy_arns = [        
+        data.aws_iam_policy.AmazonEC2FullAccess.arn,
+        data.aws_iam_policy.AmazonEC2ContainerRegistryFullAccess.arn,        
         data.aws_iam_policy.AmazonECS_FullAccess.arn
     ]
 }
