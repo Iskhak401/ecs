@@ -8,15 +8,13 @@ variable "aws_region" {
 variable "environment" {
   description = "dev | staging | production"
 
-  type = string
-  default = "dev"
+  type = string  
 }
 
 variable "project" {
   description = "name of project to identify resources"
 
-  type = string
-  default = "peer"
+  type = string  
 }
 
 variable "owner" {
@@ -24,6 +22,28 @@ variable "owner" {
 
   type = string
   default = "peer"
+}
+
+variable "vpc_cidr_block"{
+  description = "application cidr block"
+
+  default= "10.0.0.0/16"
+}
+
+variable "vpc_subnet_cidr_blocks" {
+  description = "cidrs blocks allocated in subnets"
+
+  type= list
+  default = [ "10.0.0.0/24",
+              "10.0.1.0/24",
+              "10.0.2.0/24",
+              "10.0.3.0/24",
+              "10.0.4.0/24",
+              "10.0.5.0/24",
+              "10.0.6.0/24",
+              "10.0.7.0/24",
+              "10.0.8.0/24",
+              "10.0.9.0/24" ]
 }
 
 variable "max_ecr_image"{

@@ -7,7 +7,7 @@ module "vpc" {
   version = "~> 3.0"
 
   name = "${local.name}-vpc"
-  cidr = "10.0.0.0/16"
+  cidr = var.vpc_cidr_block
 
   enable_dns_support = true
   enable_dns_hostnames = true
@@ -16,10 +16,96 @@ module "vpc" {
   one_nat_gateway_per_az = true
 
   azs = ["${local.region}a", "${local.region}b"]
-  public_subnets = ["10.0.0.0/24", "10.0.1.0/24"]
-  private_subnets = ["10.0.2.0/24", "10.0.3.0/24", "10.0.8.0/24", "10.0.9.0/24"]
-  database_subnets = ["10.0.4.0/24", "10.0.5.0/24"]
-  elasticache_subnets = ["10.0.6.0/24", "10.0.7.0/24"] 
+  public_subnets = [var.vpc_subnet_cidr_blocks[0], var.vpc_subnet_cidr_blocks[1]]
+  private_subnets = [var.vpc_subnet_cidr_blocks[2], var.vpc_subnet_cidr_blocks[3]]
+  database_subnets = [var.vpc_subnet_cidr_blocks[4], var.vpc_subnet_cidr_blocks[5]]
+  elasticache_subnets = [var.vpc_subnet_cidr_blocks[6], var.vpc_subnet_cidr_blocks[7]] 
+
+  database_dedicated_network_acl = true
+  #default inbound will deny any connection that does not match one of previous rules
+  database_inbound_acl_rules = concat(local.vpc_acl_default_block_all, 
+                                      [ { "cidr_block": var.vpc_cidr_block, 
+                                          "from_port": var.db_port,
+                                          "to_port": var.db_port, 
+                                          "protocol": "tcp", 
+                                          "rule_action": "allow", 
+                                          "rule_number": 10 } ]
+                                    )
+
+  database_outbound_acl_rules = concat(local.vpc_acl_default_outbound_service, local.vpc_acl_default_block_all)
+
+  elasticache_dedicated_network_acl = true
+  elasticache_inbound_acl_rules = concat(local.vpc_acl_default_block_all, 
+                                      [ { "cidr_block": var.vpc_cidr_block, 
+                                          "from_port": var.redis_port,
+                                          "to_port": var.redis_port, 
+                                          "protocol": "tcp", 
+                                          "rule_action": "allow", 
+                                          "rule_number": 10 } ]
+                                    )
+
+  elasticache_outbound_acl_rules = concat(local.vpc_acl_default_outbound_service, local.vpc_acl_default_block_all)
+
+  public_dedicated_network_acl = true
+
+  public_inbound_acl_rules = concat(local.vpc_acl_default_block_all, 
+                                      [ { "cidr_block": local.anywhere_ip, 
+                                          "from_port": 80,
+                                          "to_port": 80, 
+                                          "protocol": "tcp", 
+                                          "rule_action": "allow", 
+                                          "rule_number": 10 },
+                                        { "cidr_block": local.anywhere_ip, 
+                                          "from_port": 443,
+                                          "to_port": 443, 
+                                          "protocol": "tcp", 
+                                          "rule_action": "allow", 
+                                          "rule_number": 20 },
+                                        { "cidr_block": local.anywhere_ip, 
+                                          "from_port": 22,
+                                          "to_port": 22, 
+                                          "protocol": "tcp", 
+                                          "rule_action": "allow", 
+                                          "rule_number": 30 } ]
+                                    )  
+
+}
+
+################################################################################
+# setup vpc private subnet acl
+################################################################################
+
+resource "aws_network_acl" "acl_subnet_fargate" {
+  vpc_id = module.vpc.vpc_id
+
+  subnet_ids = [ module.vpc.private_subnets[0] , module.vpc.private_subnets[1] ]
+
+  egress {
+    protocol   = "tcp"
+    rule_no    = 10
+    action     = "allow"
+    cidr_block = local.anywhere_ip
+    from_port  = 0
+    to_port    = 65535
+  }
+
+  ingress {
+    protocol   = "tcp"
+    rule_no    = 10
+    action     = "allow"
+    cidr_block = local.anywhere_ip
+    from_port  = 5000
+    to_port    = 5000
+  }
+
+  ingress {
+    protocol   = "all"
+    rule_no    = 20000
+    action     = "deny"
+    cidr_block = local.anywhere_ip
+    from_port  = 0
+    to_port    = 0
+  }
 }
 
 ################################################################################

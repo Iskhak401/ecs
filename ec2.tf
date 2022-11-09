@@ -180,7 +180,27 @@ module "identity_alb" {
   ]
 }
 
+################################################################################
+# setup ec2 instance
+################################################################################
 
+module "ec2_instance" {
+  source  = "terraform-aws-modules/ec2-instance/aws"
+  version = "~> 3.0"
+
+  name = "${local.name}-client-instance"
+
+  ami                    = "ami-071e6cafc48327ca2"
+  instance_type          = "t2.micro"  
+  monitoring             = true
+  vpc_security_group_ids = [aws_security_group.db_client_sg.id]
+  subnet_id              = module.vpc.public_subnets[0]
+
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+  }
+}
 
 
 ################################################################################
@@ -237,8 +257,8 @@ resource "aws_security_group" "content_rds_sg" {
 
   ingress {
     description      = "Allow request to postgresql"
-    from_port        = 5432
-    to_port          = 5432
+    from_port        = var.db_port
+    to_port          = var.db_port
     protocol         = "tcp"
     cidr_blocks      = [module.vpc.vpc_cidr_block] 
   }
@@ -259,8 +279,30 @@ resource "aws_security_group" "redis_sg" {
 
   ingress {
     description      = "Allow request to postgresql"
-    from_port        = 6379
-    to_port          = 6379
+    from_port        = var.redis_port
+    to_port          = var.redis_port
+    protocol         = "tcp"
+    cidr_blocks      = [module.vpc.vpc_cidr_block] 
+  }
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = [local.anywhere_ip]
+  } 
+}
+
+#Sql Client instance
+resource "aws_security_group" "db_client_sg" {
+  name        = "${local.name}-${local.content_resource}-ssh-sg"
+  description = "Allow ssh access to EC2 instance"
+  vpc_id      = module.vpc.vpc_id
+
+  ingress {
+    description      = "Allow request to ssh"
+    from_port        = 22
+    to_port          = 22
     protocol         = "tcp"
     cidr_blocks      = [module.vpc.vpc_cidr_block] 
   }

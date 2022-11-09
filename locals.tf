@@ -3,6 +3,19 @@ locals{
     env = var.environment
     region = var.aws_region
 
+    vpc_acl_default_block_all = [ { "cidr_block": local.anywhere_ip, 
+                                   "from_port": 0,
+                                   "to_port": 0, 
+                                   "protocol": "-1", 
+                                   "rule_action": "deny", 
+                                   "rule_number": 20000 } ]
+    vpc_acl_default_outbound_service = [ { "cidr_block": local.anywhere_ip, 
+                                   "from_port": 1025,
+                                   "to_port": 65535, 
+                                   "protocol": "tcp", 
+                                   "rule_action": "deny", 
+                                   "rule_number": 19000 } ]
+
     qldb_ledger = aws_qldb_ledger.content_ledger.name
     google_key = var.google_api_key
     nearbyradius = var.nearby_radius
