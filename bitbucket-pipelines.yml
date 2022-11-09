@@ -1,5 +1,5 @@
 
-image: hashicorp/terraform:full
+image: hashicorp/terraform:latest
 pipelines:
     default:
         - step:
