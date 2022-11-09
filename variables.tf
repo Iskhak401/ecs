@@ -156,6 +156,12 @@ variable "google_api_key"{
   default= ""
 }
 
+variable "tomtom_api_key"{
+  description= "Tomtom API key for locations"
+
+  default= ""
+}
+
 variable "nearby_radius"{
   description= "Nearby radius"
 

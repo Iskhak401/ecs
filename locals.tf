@@ -24,6 +24,7 @@ locals{
     redis_string = data.aws_elasticache_replication_group.content_redis_replica.primary_endpoint_address
     postgres_string = "Server=${module.content_rds.cluster_endpoint};Port=${var.db_port};Database=${local.name}-${local.content_resource}-${local.env};User Id=${var.db_username};password=${local.rds_password};Timeout=20;"
     s3_bucket = module.s3_bucket.s3_bucket_id
+    tomtom_key = var.tomtom_api_key
     
 
     content_resource = "content"
