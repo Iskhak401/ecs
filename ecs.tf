@@ -73,6 +73,10 @@ resource "aws_ecs_task_definition" "content_task_definition" {
           "name": "APPCONFIG__S3BUCKET"
         },
         {
+          "valueFrom": "${aws_secretsmanager_secret.content_secret.id}:APPCONFIG__TOMTOMKEY::",
+          "name": "APPCONFIG__TOMTOMKEY"
+        },
+        {
           "valueFrom": "${aws_secretsmanager_secret.content_secret.id}:AWS__AccessKey::",
           "name": "AWS__AccessKey"
         },
