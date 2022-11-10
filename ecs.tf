@@ -159,8 +159,8 @@ resource "aws_ecs_task_definition" "identity_task_definition" {
       "workingDirectory": null,
       "secrets": [
         {
-          "valueFrom": "${aws_secretsmanager_secret.identity_secret.id}:APPCONFIG__GOOGLEAPIKEY::",
-          "name": "APPCONFIG__GOOGLEAPIKEY"
+          "valueFrom": "${aws_secretsmanager_secret.identity_secret.id}:AppConfig__IdentityServerUrl::",
+          "name": "AppConfig__IdentityServerUrl"
         }
       ],
       "dockerSecurityOptions": null,
