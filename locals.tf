@@ -13,7 +13,7 @@ locals{
                                    "from_port": 1025,
                                    "to_port": 65535, 
                                    "protocol": "tcp", 
-                                   "rule_action": "deny", 
+                                   "rule_action": "allow", 
                                    "rule_number": 19000 } ]
 
     qldb_ledger = aws_qldb_ledger.content_ledger.name
