@@ -1,0 +1,27 @@
+
+image: hashicorp/terraform:latest
+definitions:
+  steps:
+    - step: &validate-plan-apply
+            deployment: "Development"
+            script:                    
+                - terraform init -backend-config="bucket=${AWS_S3_STATE_BUCKET}"                  
+                - terraform plan                                                       
+                - terraform apply -input=false -auto-approve
+
+pipelines:
+    custom:
+        production:
+            - step:
+                <<: *validate-plan-apply
+                deployment: Production                
+    branches:
+        master:        
+            - step:
+                <<: *validate-plan-apply
+                deployment: Development
+        'release/*':
+            - step:
+                <<: *validate-plan-apply
+                deployment: Staging          
+            
