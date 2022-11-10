@@ -48,26 +48,31 @@ module "vpc" {
 
   public_dedicated_network_acl = true
 
-  public_inbound_acl_rules = concat(local.vpc_acl_default_block_all, 
-                                      [ { "cidr_block": local.anywhere_ip, 
-                                          "from_port": 80,
-                                          "to_port": 80, 
-                                          "protocol": "tcp", 
-                                          "rule_action": "allow", 
-                                          "rule_number": 10 },
-                                        { "cidr_block": local.anywhere_ip, 
-                                          "from_port": 443,
-                                          "to_port": 443, 
-                                          "protocol": "tcp", 
-                                          "rule_action": "allow", 
-                                          "rule_number": 20 },
-                                        { "cidr_block": local.anywhere_ip, 
-                                          "from_port": 22,
-                                          "to_port": 22, 
-                                          "protocol": "tcp", 
-                                          "rule_action": "allow", 
-                                          "rule_number": 30 } ]
-                                    )  
+  public_inbound_acl_rules =  [ { "cidr_block": local.anywhere_ip, 
+                                  "from_port": 80,
+                                  "to_port": 80, 
+                                  "protocol": "tcp", 
+                                  "rule_action": "allow", 
+                                  "rule_number": 10 },
+                                { "cidr_block": local.anywhere_ip, 
+                                  "from_port": 443,
+                                  "to_port": 443, 
+                                  "protocol": "tcp", 
+                                  "rule_action": "allow", 
+                                  "rule_number": 20 },
+                                { "cidr_block": local.anywhere_ip, 
+                                  "from_port": 22,
+                                  "to_port": 22, 
+                                  "protocol": "tcp", 
+                                  "rule_action": "allow", 
+                                  "rule_number": 30 },
+                                { "cidr_block": local.anywhere_ip, 
+                                  "from_port": 1025,
+                                  "to_port": 65535, 
+                                  "protocol": "tcp", 
+                                  "rule_action": "allow", 
+                                  "rule_number": 40 } ]
+                                      
 
 }
 
