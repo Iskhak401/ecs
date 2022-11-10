@@ -94,8 +94,8 @@ resource "aws_network_acl" "acl_subnet_fargate" {
     rule_no    = 10
     action     = "allow"
     cidr_block = local.anywhere_ip
-    from_port  = 5000
-    to_port    = 5000
+    from_port  = 1025
+    to_port    = 65535
   }
 
   ingress {
