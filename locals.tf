@@ -22,9 +22,10 @@ locals{
     app_access_key = module.app_user.iam_access_key_id
     app_secret_key = module.app_user.iam_access_key_secret
     redis_string = data.aws_elasticache_replication_group.content_redis_replica.primary_endpoint_address
-    postgres_string = "Server=${module.content_rds.cluster_endpoint};Port=${var.db_port};Database=${local.name}-${local.content_resource}-${local.env};User Id=${var.db_username};password=${local.rds_password};Timeout=20;"
+    mongoDB_string = "mongodb://${var.db_username}:${local.docdb_password}@${aws_docdb_cluster.service.endpoint}:${var.port_number}/${local.db_name}?ssl=true&ssl_ca_certs=rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
     s3_bucket = module.s3_bucket.s3_bucket_id
     tomtom_key = var.tomtom_api_key
+    db_name = "${var.db_name}-${var.environment}"
     
 
     content_resource = "content"
@@ -40,7 +41,7 @@ locals{
     content_subdomain = var.content_subdomain
     identity_subdomain = var.identity_subdomain
 
-    rds_engine = var.db_engine
-    rds_password = random_password.generated_rds_password.result
-    rds_user = var.db_username
+    docdb_engine = var.engine
+    docdb_password = random_password.generated_docdb_password.result
+    docdb_user = var.db_username
 }

@@ -25,8 +25,8 @@ module "vpc" {
   #default inbound will deny any connection that does not match one of previous rules
   database_inbound_acl_rules = concat(local.vpc_acl_default_block_all, 
                                       [ { "cidr_block": var.vpc_cidr_block, 
-                                          "from_port": var.db_port,
-                                          "to_port": var.db_port, 
+                                          "from_port": var.port_number,
+                                          "to_port": var.port_number, 
                                           "protocol": "tcp", 
                                           "rule_action": "allow", 
                                           "rule_number": 10 } ]
@@ -137,4 +137,67 @@ module "vpc_endpoint" {
       tags    = { Name = "${local.name}-s3-vpc-endpoint" }
     }
   }
+}
+
+
+####################################
+###### Enabling vpc FLow logs ######
+####################################
+
+resource "aws_flow_log" "peer-vpc" {
+  iam_role_arn    = aws_iam_role.vpc-flow-logs.arn
+  log_destination = aws_cloudwatch_log_group.peer-vpc.arn
+  traffic_type    = "ALL"
+  vpc_id          = module.vpc.vpc_id
+}
+
+
+resource "aws_cloudwatch_log_group" "peer-vpc" {
+  name = "${module.vpc.vpc_id}-flow-logs"
+}
+
+
+
+resource "aws_iam_role" "vpc-flow-logs" {
+  name = "vpc-flowlogs-role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "vpc-flow-logs.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "example" {
+  name = "example"
+  role = aws_iam_role.vpc-flow-logs.id
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "logs:DescribeLogGroups",
+        "logs:DescribeLogStreams"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
 }

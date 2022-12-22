@@ -26,7 +26,8 @@ resource "aws_secretsmanager_secret_version" "content_version" {
     "AWS__AccessKey" = local.app_access_key
     "AWS__SecretKey" = local.app_secret_key
     "ConnectionStrings__Redis" = local.redis_string
-    "ConnectionStrings__Postgres" = local.postgres_string    
+    "ConnectionStrings__MongoDB" = local.mongoDB_string
+    "APPCONFIG__MONGODB" = local.db_name
   })
 }
 
