@@ -132,7 +132,7 @@ variable "backup_window" {
     default = "07:00-09:00"
 }
 
-variable "port_number" {
+variable "docdb_port_number" {
     description = "Cluster port"
     type = string
     default = "27017"

@@ -25,8 +25,8 @@ module "vpc" {
   #default inbound will deny any connection that does not match one of previous rules
   database_inbound_acl_rules = concat(local.vpc_acl_default_block_all, 
                                       [ { "cidr_block": var.vpc_cidr_block, 
-                                          "from_port": var.port_number,
-                                          "to_port": var.port_number, 
+                                          "from_port": var.docdb_port_number,
+                                          "to_port": var.docdb_port_number, 
                                           "protocol": "tcp", 
                                           "rule_action": "allow", 
                                           "rule_number": 10 } ]

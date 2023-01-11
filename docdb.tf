@@ -26,7 +26,7 @@ resource "aws_docdb_cluster" "service" {
   vpc_security_group_ids = ["${aws_security_group.content_docdb_sg.id}"]
   backup_retention_period = var.backup_retention_period
   storage_encrypted       = false
-  port = var.port_number
+  port = var.docdb_port_number
   enabled_cloudwatch_logs_exports = var.cloudwatch_logs
   apply_immediately  = true
 }

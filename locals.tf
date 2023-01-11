@@ -22,7 +22,7 @@ locals{
     app_access_key = module.app_user.iam_access_key_id
     app_secret_key = module.app_user.iam_access_key_secret
     redis_string = data.aws_elasticache_replication_group.content_redis_replica.primary_endpoint_address
-    mongoDB_string = "mongodb://${var.db_username}:${local.docdb_password}@${aws_docdb_cluster.service.endpoint}:${var.port_number}/${local.db_name}?ssl=true&ssl_ca_certs=rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
+    mongoDB_string = "mongodb://${var.db_username}:${local.docdb_password}@${aws_docdb_cluster.service.endpoint}:${var.docdb_port_number}/${local.db_name}?ssl=true&ssl_ca_certs=rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
     s3_bucket = module.s3_bucket.s3_bucket_id
     tomtom_key = var.tomtom_api_key
     db_name = "${var.db_name}-${var.environment}"

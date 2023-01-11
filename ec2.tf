@@ -234,8 +234,8 @@ resource "aws_security_group" "content_docdb_sg" {
 
   ingress {
     description      = "Allow request to postgresql"
-    from_port        = var.port_number
-    to_port          = var.port_number
+    from_port        = var.docdb_port_number
+    to_port          = var.docdb_port_number
     protocol         = "tcp"
     cidr_blocks      = [module.vpc.vpc_cidr_block] 
   }
