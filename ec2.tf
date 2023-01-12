@@ -227,15 +227,15 @@ resource "aws_security_group" "content_service_sg" {
   } 
 }
 
-resource "aws_security_group" "content_rds_sg" {
-  name        = "${local.name}-${local.content_resource}-rds-sg"
-  description = "Allow access to RDS instance from Local"
+resource "aws_security_group" "content_docdb_sg" {
+  name        = "${local.name}-${local.content_resource}-docdb-sg"
+  description = "Allow access to docdb instance from Local"
   vpc_id      = module.vpc.vpc_id
 
   ingress {
     description      = "Allow request to postgresql"
-    from_port        = var.db_port
-    to_port          = var.db_port
+    from_port        = var.docdb_port_number
+    to_port          = var.docdb_port_number
     protocol         = "tcp"
     cidr_blocks      = [module.vpc.vpc_cidr_block] 
   }

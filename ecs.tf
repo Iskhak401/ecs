@@ -85,13 +85,17 @@ resource "aws_ecs_task_definition" "content_task_definition" {
           "name": "AWS__SecretKey"
         },
         {
-          "valueFrom": "${aws_secretsmanager_secret.content_secret.id}:ConnectionStrings__Postgres::",
-          "name": "ConnectionStrings__Postgres"
+          "valueFrom": "${aws_secretsmanager_secret.content_secret.id}:ConnectionStrings__MongoDB::",
+          "name": "ConnectionStrings__MongoDB"
         },
         {
           "valueFrom": "${aws_secretsmanager_secret.content_secret.id}:ConnectionStrings__Redis::",
           "name": "ConnectionStrings__Redis"
-        }        
+        },    
+        {
+          "valueFrom": "${aws_secretsmanager_secret.content_secret.id}:APPCONFIG__MONGODB::",
+          "name": "APPCONFIG__MONGODB"
+        }      
       ],
       "dockerSecurityOptions": null,
       "memory": null,
