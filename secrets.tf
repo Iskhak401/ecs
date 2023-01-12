@@ -35,6 +35,7 @@ resource "aws_secretsmanager_secret_version" "identity_version" {
   secret_id = aws_secretsmanager_secret.identity_secret.id
   secret_string = jsonencode({
     "AppConfig__IdentityServerUrl" = local.mobidev_identity_api
+    "ConnectionStrings__Postgres" = local.proxy_postgres_string
   })
 }
 

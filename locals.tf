@@ -36,6 +36,7 @@ locals{
     cloud_custom_header_name = var.cloudfront_custom_header_name
     cloud_custom_header_value = random_password.generated_header_value.result
 
+    proxy_postgres_string = var.proxy_postgres_string
     mobidev_identity_api = var.mobidev_identity_api
     api_domain = var.api_domain
     content_subdomain = var.content_subdomain

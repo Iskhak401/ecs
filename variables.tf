@@ -98,6 +98,11 @@ variable "mobidev_identity_api"{
   default = "beta.api.peer.inc"
 }
 
+variable "proxy_postgres_string"{
+  description = "proxy postgres string"
+  default = ""
+}
+
 ###########################################
 ### Docdb variable set #######
 ###########################################
