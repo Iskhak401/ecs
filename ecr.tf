@@ -2,10 +2,10 @@
 # setup container registry
 ################################################################################
 
-module "content_ecr" {
+module "friends_ecr" {
   source = "terraform-aws-modules/ecr/aws"
 
-  repository_name = "${local.name}-${local.content_resource}-ecr"
+  repository_name = "${local.name}-${local.friends_resource}-ecr"
   
   repository_lifecycle_policy = jsonencode({
     rules = [
@@ -26,10 +26,10 @@ module "content_ecr" {
   })
 }
 
-module "identity_ecr" {
+module "chat_ecr" {
   source = "terraform-aws-modules/ecr/aws"
 
-  repository_name = "${local.name}-${local.identity_resource}-ecr"
+  repository_name = "${local.name}-${local.chat_resource}-ecr"
   
   repository_lifecycle_policy = jsonencode({
     rules = [

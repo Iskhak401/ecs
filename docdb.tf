@@ -23,7 +23,7 @@ resource "aws_docdb_cluster" "service" {
   master_username         = var.db_username
   master_password         = local.docdb_password
   db_cluster_parameter_group_name = "${aws_docdb_cluster_parameter_group.service.name}"
-  vpc_security_group_ids = ["${aws_security_group.content_docdb_sg.id}"]
+  vpc_security_group_ids = ["${aws_security_group.friends_docdb_sg.id}"]
   backup_retention_period = var.backup_retention_period
   storage_encrypted       = false
   port = var.docdb_port_number

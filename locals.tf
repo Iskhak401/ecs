@@ -16,20 +16,16 @@ locals{
                                    "rule_action": "allow", 
                                    "rule_number": 19000 } ]
 
-    qldb_ledger = aws_qldb_ledger.content_ledger.name
-    google_key = var.google_api_key
-    nearbyradius = var.nearby_radius
     app_access_key = module.app_user.iam_access_key_id
     app_secret_key = module.app_user.iam_access_key_secret
-    redis_string = data.aws_elasticache_replication_group.content_redis_replica.primary_endpoint_address
+    redis_string = data.aws_elasticache_replication_group.friends_redis_replica.primary_endpoint_address
     mongoDB_string = "mongodb://${var.db_username}:${local.docdb_password}@${aws_docdb_cluster.service.endpoint}:${var.docdb_port_number}/${local.db_name}?ssl=true&ssl_ca_certs=rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
     s3_bucket = module.s3_bucket.s3_bucket_id
-    tomtom_key = var.tomtom_api_key
     db_name = "${var.db_name}-${var.environment}"
     
 
-    content_resource = "content"
-    identity_resource = "identity"
+    friends_resource = "friends"
+    chat_resource = "chat"
     max_ecr = var.max_ecr_image
     anywhere_ip = "0.0.0.0/0"
 
@@ -37,10 +33,10 @@ locals{
     cloud_custom_header_value = random_password.generated_header_value.result
 
     proxy_postgres_string = var.proxy_postgres_string
-    mobidev_identity_api = var.mobidev_identity_api
+    mobidev_chat_api = var.mobidev_chat_api
     api_domain = var.api_domain
-    content_subdomain = var.content_subdomain
-    identity_subdomain = var.identity_subdomain
+    friends_subdomain = var.friends_subdomain
+    chat_subdomain = var.chat_subdomain
 
     docdb_engine = var.engine
     docdb_password = random_password.generated_docdb_password.result

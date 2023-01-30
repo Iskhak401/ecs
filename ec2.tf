@@ -11,17 +11,17 @@ resource "random_password" "generated_header_value" {
 # setup application load balancers
 ################################################################################
 
-module "content_alb" {
+module "friends_alb" {
   source  = "terraform-aws-modules/alb/aws"
   version = "~> 6.0"
 
-  name = "${local.name}-${local.content_resource}-alb"
+  name = "${local.name}-${local.friends_resource}-alb"
 
   load_balancer_type = "application"
 
   vpc_id             = module.vpc.vpc_id
   subnets            = module.vpc.public_subnets
-  security_groups    = [aws_security_group.content_alb_sg.id]
+  security_groups    = [aws_security_group.friends_alb_sg.id]
 
 #   access_logs = {
 #     bucket = "alb-logs-s3"
@@ -29,7 +29,7 @@ module "content_alb" {
 
   target_groups = [
     {
-      name= "${local.name}-${local.content_resource}-tg"
+      name= "${local.name}-${local.friends_resource}-tg"
       backend_protocol     = "HTTP"
       backend_port         = 5000
       target_type          = "ip"
@@ -96,17 +96,17 @@ module "content_alb" {
   ]
 }
 
-module "identity_alb" {
+module "chat_alb" {
   source  = "terraform-aws-modules/alb/aws"
   version = "~> 6.0"
 
-  name = "${local.name}-${local.identity_resource}-alb"
+  name = "${local.name}-${local.chat_resource}-alb"
 
   load_balancer_type = "application"
 
   vpc_id             = module.vpc.vpc_id
   subnets            = module.vpc.public_subnets
-  security_groups    = [aws_security_group.identity_alb_sg.id]
+  security_groups    = [aws_security_group.chat_alb_sg.id]
 
 #   access_logs = {
 #     bucket = "alb-logs-s3"
@@ -114,7 +114,7 @@ module "identity_alb" {
 
   target_groups = [
     {
-      name= "${local.name}-${local.identity_resource}-tg"
+      name= "${local.name}-${local.chat_resource}-tg"
       backend_protocol     = "HTTP"
       backend_port         = 5000
       target_type          = "ip"
@@ -184,9 +184,9 @@ module "identity_alb" {
 # setup security groups
 ################################################################################
 
-#content
-resource "aws_security_group" "content_alb_sg" {
-  name        = "${local.name}-${local.content_resource}-alb-sg"
+#Friends
+resource "aws_security_group" "friends_alb_sg" {
+  name        = "${local.name}-${local.friends_resource}-alb-sg"
   description = "Allow HTTP to Load Balancer"
   vpc_id      = module.vpc.vpc_id
 
@@ -206,8 +206,8 @@ resource "aws_security_group" "content_alb_sg" {
   } 
 }
 
-resource "aws_security_group" "content_service_sg" {
-  name        = "${local.name}-${local.content_resource}-service-sg"
+resource "aws_security_group" "friends_service_sg" {
+  name        = "${local.name}-${local.friends_resource}-service-sg"
   description = "Allow access to ECS instance from Load Balancer"
   vpc_id      = module.vpc.vpc_id
 
@@ -216,7 +216,7 @@ resource "aws_security_group" "content_service_sg" {
     from_port        = 0
     to_port          = 65535
     protocol         = "tcp"
-    security_groups = [aws_security_group.content_alb_sg.id]
+    security_groups = [aws_security_group.friends_alb_sg.id]
   }
 
   egress {
@@ -227,8 +227,8 @@ resource "aws_security_group" "content_service_sg" {
   } 
 }
 
-resource "aws_security_group" "content_docdb_sg" {
-  name        = "${local.name}-${local.content_resource}-docdb-sg"
+resource "aws_security_group" "friends_docdb_sg" {
+  name        = "${local.name}-${local.friends_resource}-docdb-sg"
   description = "Allow access to docdb instance from Local"
   vpc_id      = module.vpc.vpc_id
 
@@ -250,7 +250,7 @@ resource "aws_security_group" "content_docdb_sg" {
 
 #Cache
 resource "aws_security_group" "redis_sg" {
-  name        = "${local.name}-${local.content_resource}-redis-sg"
+  name        = "${local.name}-${local.friends_resource}-redis-sg"
   description = "Allow access to Redis instance from Load Balancer"
   vpc_id      = module.vpc.vpc_id
 
@@ -270,9 +270,9 @@ resource "aws_security_group" "redis_sg" {
   } 
 }
 
-#Identity
-resource "aws_security_group" "identity_alb_sg" {
-  name        = "${local.name}-${local.identity_resource}-alb-sg"
+#Chat
+resource "aws_security_group" "chat_alb_sg" {
+  name        = "${local.name}-${local.chat_resource}-alb-sg"
   description = "Allow HTTP to Load Balancer"
   vpc_id      = module.vpc.vpc_id
 
@@ -292,8 +292,8 @@ resource "aws_security_group" "identity_alb_sg" {
   } 
 }
 
-resource "aws_security_group" "identity_service_sg" {
-  name        = "${local.name}-${local.identity_resource}-service-sg"
+resource "aws_security_group" "chat_service_sg" {
+  name        = "${local.name}-${local.chat_resource}-service-sg"
   description = "Allow access to ECS instance from Load Balancer"
   vpc_id      = module.vpc.vpc_id
 
@@ -302,7 +302,7 @@ resource "aws_security_group" "identity_service_sg" {
     from_port        = 0
     to_port          = 65535
     protocol         = "tcp"
-    security_groups = [aws_security_group.identity_alb_sg.id]
+    security_groups = [aws_security_group.chat_alb_sg.id]
   }
 
   egress {

@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    # bucket = "peer-terraform-state-dev"
+    bucket = "peer-terraform-state-dev-test"
     key    = "global/state/peer-api"
     region = "us-west-2"
   }

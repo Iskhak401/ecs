@@ -1,7 +1,7 @@
 module "s3_bucket" {
   source = "terraform-aws-modules/s3-bucket/aws"
 
-  bucket = "${local.name}-${local.content_resource}-${local.env}"
+  bucket = "${local.name}-${local.friends_resource}-${local.env}"
   acl    = "private"
 
   versioning = {
@@ -36,8 +36,8 @@ data "aws_iam_policy_document" "bucket_policy" {
     ]
 
     resources = [
-      "arn:aws:s3:::${local.name}-${local.content_resource}-${local.env}",
-      "arn:aws:s3:::${local.name}-${local.content_resource}-${local.env}/*"
+      "arn:aws:s3:::${local.name}-${local.friends_resource}-${local.env}",
+      "arn:aws:s3:::${local.name}-${local.friends_resource}-${local.env}/*"
     ]
   }
 }

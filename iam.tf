@@ -48,7 +48,8 @@ module "cicd_group"{
     custom_group_policy_arns = [        
         data.aws_iam_policy.AmazonEC2FullAccess.arn,
         data.aws_iam_policy.AmazonEC2ContainerRegistryFullAccess.arn,        
-        data.aws_iam_policy.AmazonECS_FullAccess.arn
+        data.aws_iam_policy.AmazonECS_FullAccess.arn,
+        data.aws_iam_policy.AWSCodeArtifactAdminAccess.arn
     ]
 }
 
@@ -90,7 +91,7 @@ data "aws_iam_policy_document" "qldb_role" {
         sid         = "QLDBSendCommandPermission"
         actions     = [ "qldb:SendCommand" ]
         effect      = "Allow"
-        resources   = [ aws_qldb_ledger.content_ledger.arn ]
+        resources   = [ aws_qldb_ledger.friends_ledger.arn ]
     }
 
     statement {
@@ -99,8 +100,8 @@ data "aws_iam_policy_document" "qldb_role" {
                         "qldb:PartiQLSelect"
                     ]
         effect      = "Allow"
-        resources   = [ "${aws_qldb_ledger.content_ledger.arn}/table/*",
-                        "${aws_qldb_ledger.content_ledger.arn}/information_schema/user_tables"
+        resources   = [ "${aws_qldb_ledger.friends_ledger.arn}/table/*",
+                        "${aws_qldb_ledger.friends_ledger.arn}/information_schema/user_tables"
                     ]
     }
 
@@ -113,8 +114,8 @@ data "aws_iam_policy_document" "qldb_role" {
                         "qldb:PartiQLUpdate"
                     ]
         effect      = "Allow"
-        resources   = [ "${aws_qldb_ledger.content_ledger.arn}/table/*",
-                        "${aws_qldb_ledger.content_ledger.arn}/information_schema/user_tables"
+        resources   = [ "${aws_qldb_ledger.friends_ledger.arn}/table/*",
+                        "${aws_qldb_ledger.friends_ledger.arn}/information_schema/user_tables"
                     ]
     }
 }
@@ -135,8 +136,8 @@ data "aws_iam_policy_document" "secrets_role"{
                         "secretsmanager:ListSecretVersionIds"
                     ]
         effect      = "Allow"
-        resources   = [ aws_secretsmanager_secret.content_secret.arn,
-                        aws_secretsmanager_secret.identity_secret.arn
+        resources   = [ aws_secretsmanager_secret.friends_secret.arn,
+                        aws_secretsmanager_secret.chat_secret.arn
                     ]
     }
 
@@ -185,4 +186,8 @@ data "aws_iam_policy" "AmazonECS_FullAccess" {
 
 data "aws_iam_policy" "AmazonECSTaskExecutionRolePolicy" {
   name = "AmazonECSTaskExecutionRolePolicy"
+}
+
+data "aws_iam_policy" "AWSCodeArtifactAdminAccess" {
+    name = "AWSCodeArtifactAdminAccess"
 }

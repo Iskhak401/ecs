@@ -53,12 +53,12 @@ variable "api_domain"{
   default="api.peer.inc"
 }
 
-variable "content_subdomain"{
+variable "friends_subdomain"{
   description = "domain for api"
   default="api.peer.inc"
 }
 
-variable "identity_subdomain"{
+variable "chat_subdomain"{
   description = "domain for api"
   default="api.peer.inc"
 }
@@ -78,23 +78,8 @@ variable "task_memory"{
   default = 1024
 }
 
-variable "google_api_key"{
-  description= "Google API key for maps"
-  default = ""
-}
-
-variable "tomtom_api_key"{
-  description= "Tomtom API key for locations"
-  default = ""
-}
-
-variable "nearby_radius"{
-  description= "Nearby radius"
-  default = 1500
-}
-
-variable "mobidev_identity_api"{
-  description = "mobidev identity api"
+variable "mobidev_chat_api"{
+  description = "mobidev chatapi"
   default = "beta.api.peer.inc"
 }
 
@@ -102,6 +87,12 @@ variable "proxy_postgres_string"{
   description = "proxy postgres string"
   default = ""
 }
+
+variable "aws_cert_name"{
+  description = "Certificate of AWS"
+  default = "rds-combined-ca-bundle.p7b"
+}
+
 
 ###########################################
 ### Docdb variable set #######
@@ -122,7 +113,7 @@ variable "engine" {
 variable "db_username" {
     description = "DB username"
     type = string
-    default = "content_db_user"
+    default = "friends_db_user"
 }
 
 variable "backup_retention_period" {
@@ -216,4 +207,34 @@ variable "region" {
 variable "vpc_cidr_block"{
   description = "application cidr block"
   default = "10.0.0.0/16"
+}
+
+################################
+### ECS ASG variable set #######
+################################
+
+variable "ecs_as_cpu_low_threshold_per" {
+  description = "the number of containers will be reduced (but not below ecs_autoscale_min_instances)"
+  default = "1"
+}
+
+variable "ecs_as_cpu_high_threshold_per" {
+  description = "the number of containers will be increased (but not above ecs_autoscale_max_instances)"
+  default = "8"
+}
+
+
+variable "ecs_autoscale_min_instances" {
+  description = "The minimum number of containers that should be running"
+  default = "1"
+}
+
+variable "ecs_autoscale_max_instances" {
+  description = "The maximum number of containers that should be running"
+  default = "8"
+}
+
+variable "logs_retention_in_days" {
+  description = "log retention period temp set to 90"
+  default = "90"
 }
