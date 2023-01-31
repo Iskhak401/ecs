@@ -25,7 +25,8 @@ locals{
     
 
     friends_resource = "friends"
-    chat_resource = "chat"
+    # chat_resource = "chat"
+    user_resource = "user"
     max_ecr = var.max_ecr_image
     anywhere_ip = "0.0.0.0/0"
 
@@ -33,10 +34,9 @@ locals{
     cloud_custom_header_value = random_password.generated_header_value.result
 
     proxy_postgres_string = var.proxy_postgres_string
-    mobidev_chat_api = var.mobidev_chat_api
     api_domain = var.api_domain
     friends_subdomain = var.friends_subdomain
-    chat_subdomain = var.chat_subdomain
+    # chat_subdomain = var.chat_subdomain
 
     docdb_engine = var.engine
     docdb_password = random_password.generated_docdb_password.result

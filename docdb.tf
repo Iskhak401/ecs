@@ -36,7 +36,7 @@ resource "aws_docdb_cluster_parameter_group" "service" {
   name = "${local.env}-${var.pg_name_prefix}"
 
   parameter {
-    name  = var.parameter_name
+    name  = var.parameter_name_tls
     value = var.parameter_value
   }
 }

@@ -3,14 +3,19 @@
 ################################################################################
 
 #friends
-resource "aws_ecs_cluster" "friends_ecs_cluster" {
-  name = "${local.name}-${local.friends_resource}-ecs-cluster"
+resource "aws_ecs_cluster" "peer_ecs_cluster" {
+  name = "${local.name}-${local.env}-ecs-cluster"
 }
 
-#chat
-resource "aws_ecs_cluster" "chat_ecs_cluster" {
-  name = "${local.name}-${local.chat_resource}-ecs-cluster"
-}
+# #chat
+# resource "aws_ecs_cluster" "chat_ecs_cluster" {
+#   name = "${local.name}-${local.chat_resource}-ecs-cluster"
+# }
+
+# #user
+# resource "aws_ecs_cluster" "user_ecs_cluster" {
+#   name = "${local.name}-${local.user_resource}-ecs-cluster"
+# }
 
 ################################################################################
 # setup task definition
@@ -57,27 +62,27 @@ resource "aws_ecs_task_definition" "friends_task_definition" {
       "workingDirectory": null,
       "secrets": [
         {
-          "valueFrom": "${aws_secretsmanager_secret.friends_secret.id}:APPCONFIG__S3BUCKET::",
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:APPCONFIG__S3BUCKET::",
           "name": "APPCONFIG__S3BUCKET"
         },
         {
-          "valueFrom": "${aws_secretsmanager_secret.friends_secret.id}:AWS__AccessKey::",
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:AWS__AccessKey::",
           "name": "AWS__AccessKey"
         },
         {
-          "valueFrom": "${aws_secretsmanager_secret.friends_secret.id}:AWS__SecretKey::",
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:AWS__SecretKey::",
           "name": "AWS__SecretKey"
         },
         {
-          "valueFrom": "${aws_secretsmanager_secret.friends_secret.id}:ConnectionStrings__MongoDB::",
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:ConnectionStrings__MongoDB::",
           "name": "ConnectionStrings__MongoDB"
         },
         {
-          "valueFrom": "${aws_secretsmanager_secret.friends_secret.id}:ConnectionStrings__Redis::",
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:ConnectionStrings__Redis::",
           "name": "ConnectionStrings__Redis"
         },    
         {
-          "valueFrom": "${aws_secretsmanager_secret.friends_secret.id}:APPCONFIG__MONGODB::",
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:APPCONFIG__MONGODB::",
           "name": "APPCONFIG__MONGODB"
         }      
       ],
@@ -110,9 +115,103 @@ TASK_DEFINITION
   
 }
 
-#chat
-resource "aws_ecs_task_definition" "chat_task_definition" {
-  family                   = "${local.name}-${local.chat_resource}-task-definition"
+# #chat
+# resource "aws_ecs_task_definition" "chat_task_definition" {
+#   family                   = "${local.name}-${local.chat_resource}-task-definition"
+#   requires_compatibilities = ["FARGATE"]
+#   network_mode             = "awsvpc"
+#   cpu                      = var.task_cpu_unit
+#   memory                   = var.task_memory
+#   execution_role_arn       = aws_iam_role.ecsTaskExecutionRole.arn
+#   container_definitions    = <<TASK_DEFINITION
+# [
+#     {
+#       "dnsSearchDomains": null,
+#       "environmentFiles": null,
+#       "logConfiguration": {
+#         "logDriver": "awslogs",
+#         "secretOptions": null,
+#         "options": {
+#           "awslogs-group": "/ecs/${local.name}-${local.chat_resource}-task-definition",
+#           "awslogs-region": "${local.region}",
+#           "awslogs-stream-prefix": "ecs"
+#         }
+#       },
+#       "entryPoint": null,
+#       "portMappings": [
+#         {
+#           "hostPort": ${var.container_port},
+#           "protocol": "tcp",
+#           "containerPort": ${var.container_port}
+#         }
+#       ],
+#       "command": null,
+#       "linuxParameters": null,
+#       "cpu": 0,
+#       "environment": [],
+#       "resourceRequirements": null,
+#       "ulimits": null,
+#       "dnsServers": null,
+#       "mountPoints": [],
+#       "workingDirectory": null,
+#       "secrets": [
+#         {
+#           "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:APPCONFIG__S3BUCKET::",
+#           "name": "APPCONFIG__S3BUCKET"
+#         },
+#         {
+#           "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:AWS__AccessKey::",
+#           "name": "AWS__AccessKey"
+#         },
+#         {
+#           "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:AWS__SecretKey::",
+#           "name": "AWS__SecretKey"
+#         },
+#         {
+#           "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:ConnectionStrings__MongoDB::",
+#           "name": "ConnectionStrings__MongoDB"
+#         },
+#         {
+#           "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:ConnectionStrings__Redis::",
+#           "name": "ConnectionStrings__Redis"
+#         },    
+#         {
+#           "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:APPCONFIG__MONGODB::",
+#           "name": "APPCONFIG__MONGODB"
+#         }      
+#       ],
+#       "dockerSecurityOptions": null,
+#       "memory": null,
+#       "memoryReservation": 1024,
+#       "volumesFrom": [],
+#       "stopTimeout": null,
+#       "image": "${module.chat_ecr.repository_url}",
+#       "startTimeout": null,
+#       "firelensConfiguration": null,
+#       "dependsOn": null,
+#       "disableNetworking": null,
+#       "interactive": null,
+#       "healthCheck": null,
+#       "essential": true,
+#       "links": null,
+#       "hostname": null,
+#       "extraHosts": null,
+#       "pseudoTerminal": null,
+#       "user": null,
+#       "readonlyRootFilesystem": null,
+#       "dockerLabels": null,
+#       "systemControls": null,
+#       "privileged": null,
+#       "name": "${local.name}-${local.chat_resource}-container"
+#     }
+# ]
+# TASK_DEFINITION
+  
+# }
+
+#user
+resource "aws_ecs_task_definition" "user_task_definition" {
+  family                   = "${local.name}-${local.user_resource}-task-definition"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   cpu                      = var.task_cpu_unit
@@ -127,7 +226,7 @@ resource "aws_ecs_task_definition" "chat_task_definition" {
         "logDriver": "awslogs",
         "secretOptions": null,
         "options": {
-          "awslogs-group": "/ecs/${local.name}-${local.chat_resource}-task-definition",
+          "awslogs-group": "/ecs/${local.name}-${local.user_resource}-task-definition",
           "awslogs-region": "${local.region}",
           "awslogs-stream-prefix": "ecs"
         }
@@ -151,16 +250,36 @@ resource "aws_ecs_task_definition" "chat_task_definition" {
       "workingDirectory": null,
       "secrets": [
         {
-          "valueFrom": "${aws_secretsmanager_secret.chat_secret.id}:AppConfig__chatServerUrl::",
-          "name": "AppConfig__chatServerUrl"
-        }
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:APPCONFIG__S3BUCKET::",
+          "name": "APPCONFIG__S3BUCKET"
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:AWS__AccessKey::",
+          "name": "AWS__AccessKey"
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:AWS__SecretKey::",
+          "name": "AWS__SecretKey"
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:ConnectionStrings__MongoDB::",
+          "name": "ConnectionStrings__MongoDB"
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:ConnectionStrings__Redis::",
+          "name": "ConnectionStrings__Redis"
+        },    
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:APPCONFIG__MONGODB::",
+          "name": "APPCONFIG__MONGODB"
+        }      
       ],
       "dockerSecurityOptions": null,
       "memory": null,
       "memoryReservation": 1024,
       "volumesFrom": [],
       "stopTimeout": null,
-      "image": "${module.chat_ecr.repository_url}",
+      "image": "${module.user_ecr.repository_url}",
       "startTimeout": null,
       "firelensConfiguration": null,
       "dependsOn": null,
@@ -177,12 +296,13 @@ resource "aws_ecs_task_definition" "chat_task_definition" {
       "dockerLabels": null,
       "systemControls": null,
       "privileged": null,
-      "name": "${local.name}-${local.chat_resource}-container"
+      "name": "${local.name}-${local.user_resource}-container"
     }
 ]
 TASK_DEFINITION
   
 }
+
 
 ################################################################################
 # setup cluster service
@@ -196,7 +316,7 @@ data "aws_ecs_task_definition" "friends_task_definition" {
 
 resource "aws_ecs_service" "friends_service" {
   name          = "${local.name}-${local.friends_resource}-service"
-  cluster       = aws_ecs_cluster.friends_ecs_cluster.id
+  cluster       = aws_ecs_cluster.peer_ecs_cluster.id
   desired_count = 2
   launch_type = "FARGATE"
   force_new_deployment = true
@@ -219,15 +339,47 @@ resource "aws_ecs_service" "friends_service" {
   }
 }
 
-#chat
+# #chat
+# # Simply specify the family to find the latest ACTIVE revision in that family.
+# data "aws_ecs_task_definition" "chat_task_definition" {
+#   task_definition = aws_ecs_task_definition.chat_task_definition.family
+# }
+
+# resource "aws_ecs_service" "chat_service" {
+#   name          = "${local.name}-${local.chat_resource}-service"
+#   cluster       = aws_ecs_cluster.chat_ecs_cluster.id
+#   desired_count = 2
+#   launch_type = "FARGATE"
+#   force_new_deployment = true
+
+  
+
+#   # Track the latest ACTIVE revision
+#   task_definition = data.aws_ecs_task_definition.chat_task_definition.arn
+
+#   load_balancer {
+#     #elb_name = module.chat_alb.lb_id
+#     target_group_arn = module.chat_alb.target_group_arns[0]
+#     container_name = "${local.name}-${local.chat_resource}-container"
+#     container_port = var.container_port
+#   }
+
+#   network_configuration {
+#     subnets = [ module.vpc.private_subnets[0], module.vpc.private_subnets[1] ]
+#     assign_public_ip = false
+#     security_groups = [ aws_security_group.chat_service_sg.id]
+#   }
+# }
+
+#user
 # Simply specify the family to find the latest ACTIVE revision in that family.
-data "aws_ecs_task_definition" "chat_task_definition" {
-  task_definition = aws_ecs_task_definition.chat_task_definition.family
+data "aws_ecs_task_definition" "user_task_definition" {
+  task_definition = aws_ecs_task_definition.user_task_definition.family
 }
 
-resource "aws_ecs_service" "chat_service" {
-  name          = "${local.name}-${local.chat_resource}-service"
-  cluster       = aws_ecs_cluster.chat_ecs_cluster.id
+resource "aws_ecs_service" "user_service" {
+  name          = "${local.name}-${local.user_resource}-service"
+  cluster       = aws_ecs_cluster.peer_ecs_cluster.id
   desired_count = 2
   launch_type = "FARGATE"
   force_new_deployment = true
@@ -235,19 +387,19 @@ resource "aws_ecs_service" "chat_service" {
   
 
   # Track the latest ACTIVE revision
-  task_definition = data.aws_ecs_task_definition.chat_task_definition.arn
+  task_definition = data.aws_ecs_task_definition.user_task_definition.arn
 
   load_balancer {
     #elb_name = module.chat_alb.lb_id
-    target_group_arn = module.chat_alb.target_group_arns[0]
-    container_name = "${local.name}-${local.chat_resource}-container"
+    target_group_arn = module.user_alb.target_group_arns[0]
+    container_name = "${local.name}-${local.user_resource}-container"
     container_port = var.container_port
   }
 
   network_configuration {
     subnets = [ module.vpc.private_subnets[0], module.vpc.private_subnets[1] ]
     assign_public_ip = false
-    security_groups = [ aws_security_group.chat_service_sg.id]
+    security_groups = [ aws_security_group.user_service_sg.id]
   }
 }
 
@@ -261,7 +413,12 @@ resource "aws_cloudwatch_log_group" "friends-logs" {
   retention_in_days = var.logs_retention_in_days
 }
 
-resource "aws_cloudwatch_log_group" "chat-logs" {
-  name              = "/ecs/${local.name}-${local.chat_resource}-task-definition"
+# resource "aws_cloudwatch_log_group" "chat-logs" {
+#   name              = "/ecs/${local.name}-${local.chat_resource}-task-definition"
+#   retention_in_days = var.logs_retention_in_days
+# }
+
+resource "aws_cloudwatch_log_group" "user-logs" {
+  name              = "/ecs/${local.name}-${local.user_resource}-task-definition"
   retention_in_days = var.logs_retention_in_days
 }

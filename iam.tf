@@ -136,8 +136,7 @@ data "aws_iam_policy_document" "secrets_role"{
                         "secretsmanager:ListSecretVersionIds"
                     ]
         effect      = "Allow"
-        resources   = [ aws_secretsmanager_secret.friends_secret.arn,
-                        aws_secretsmanager_secret.chat_secret.arn
+        resources   = [ aws_secretsmanager_secret.peer_secret.arn
                     ]
     }
 

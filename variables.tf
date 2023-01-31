@@ -58,10 +58,10 @@ variable "friends_subdomain"{
   default="api.peer.inc"
 }
 
-variable "chat_subdomain"{
-  description = "domain for api"
-  default="api.peer.inc"
-}
+# variable "chat_subdomain"{
+#   description = "domain for api"
+#   default="api.peer.inc"
+# }
 
 variable "container_port"{
   description = "docker container exposed port"
@@ -76,11 +76,6 @@ variable "task_cpu_unit"{
 variable "task_memory"{
   description = "ecs task definition cpu memory size"
   default = 1024
-}
-
-variable "mobidev_chat_api"{
-  description = "mobidev chatapi"
-  default = "beta.api.peer.inc"
 }
 
 variable "proxy_postgres_string"{
@@ -113,7 +108,7 @@ variable "engine" {
 variable "db_username" {
     description = "DB username"
     type = string
-    default = "friends_db_user"
+    default = "peer_db_user"
 }
 
 variable "backup_retention_period" {
@@ -158,7 +153,7 @@ variable "pg_name_prefix" {
     default = "pg"
 }
 
-variable "parameter_name"  {
+variable "parameter_name_tls"  {
     description = "Parameter name for tls"
     type = string
     default = "tls"
