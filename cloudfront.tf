@@ -54,6 +54,59 @@ module "friends_cloudfront" {
   }
 }
 
+
+module "user_cloudfront" {
+  source = "terraform-aws-modules/cloudfront/aws"
+
+  #aliases = ["${local.friends_subdomain}-${local.env}.${local.api_domain}"]
+
+  comment             = "${local.name} ${local.user_resource} API Cloudfront"
+  enabled             = true
+  is_ipv6_enabled     = true
+  price_class         = "PriceClass_All"
+  retain_on_delete    = false
+  wait_for_deployment = false  
+  web_acl_id          = aws_wafv2_web_acl.peer_cloudfront_acl.arn
+
+#   logging_config = {
+#     bucket = module.log_bucket.s3_bucket_bucket_domain_name
+#     prefix = "cloudfront"
+#   }
+
+  origin = {
+    alb = {
+      domain_name = module.user_alb.lb_dns_name
+      custom_origin_config = {
+        http_port              = 80
+        https_port             = 443
+        origin_protocol_policy = "http-only"
+        origin_ssl_protocols   = ["TLSv1.2"]
+      }
+
+      custom_header = [
+        {
+          name  = local.cloud_custom_header_name
+          value = local.cloud_custom_header_value
+        }
+        
+      ]      
+    }
+
+  }
+
+  default_cache_behavior = {
+    target_origin_id            = "alb"
+    viewer_protocol_policy      = "https-only"
+    allowed_methods             = ["GET", "HEAD", "OPTIONS","PUT", "POST","PATCH","DELETE"]
+    cached_methods              = ["GET", "HEAD"]
+    compress                    = true
+    query_string                = true
+    origin_request_policy_id    = aws_cloudfront_origin_request_policy.friends_origin_policy.id
+    cache_policy_id             = aws_cloudfront_cache_policy.friends_cache_policy.id
+    use_forwarded_values        = false
+  }
+}
+
 # module "chat_cloudfront" {
 #   source = "terraform-aws-modules/cloudfront/aws"
 
