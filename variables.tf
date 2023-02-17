@@ -233,3 +233,13 @@ variable "logs_retention_in_days" {
   description = "log retention period temp set to 90"
   default = "90"
 }
+
+variable "sns_platform_private_key" {
+  description = "APNS Private key for IOS Developer Account"
+  default = ""
+}
+
+variable "sns_platform_certificate" {
+  description =  "APNS Certificate for IOS Developer Account"
+  default = ""
+}

@@ -317,7 +317,7 @@ data "aws_ecs_task_definition" "friends_task_definition" {
 resource "aws_ecs_service" "friends_service" {
   name          = "${local.name}-${local.friends_resource}-service"
   cluster       = aws_ecs_cluster.peer_ecs_cluster.id
-  desired_count = 2
+  desired_count = 1
   launch_type = "FARGATE"
   force_new_deployment = true
   
@@ -380,7 +380,7 @@ data "aws_ecs_task_definition" "user_task_definition" {
 resource "aws_ecs_service" "user_service" {
   name          = "${local.name}-${local.user_resource}-service"
   cluster       = aws_ecs_cluster.peer_ecs_cluster.id
-  desired_count = 2
+  desired_count = 1
   launch_type = "FARGATE"
   force_new_deployment = true
 
