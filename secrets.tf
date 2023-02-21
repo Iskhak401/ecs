@@ -21,5 +21,13 @@ resource "aws_secretsmanager_secret_version" "peer_version" {
     "ConnectionStrings__MongoDB" = local.mongoDB_string
     "APPCONFIG__MONGODB" = local.db_name
     "APPCONFIG__AWSCertificateName" = var.aws_cert_name
+    "JWT__Key" = var.jwt_key
+    "JWT__ExpirationInHours" = var.expiration_inhour 
+    "JWT__ValidateAudience" = var.jwt_validate_audience 
+    "JWT__Audience" = var.jwt_audience 
+    "JWT__ValidateIssuer" = var.jwt_validate_issuer 
+    "JWT__Issuer" = var.jwt_issuer 
+    "JWT__ValidateKey" = var.jwt_validatekey 
+    "APPCONFIG__EnableInviteSMS" = var.appconfig_enable_invite_sms 
   })
 }
