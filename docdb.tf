@@ -27,7 +27,7 @@ resource "aws_docdb_cluster" "service" {
   backup_retention_period = var.backup_retention_period
   storage_encrypted       = false
   port = var.docdb_port_number
-  enabled_cloudwatch_logs_exports = var.cloudwatch_logs
+  enabled_cloudwatch_logs_exports = ["audit"]
   apply_immediately  = true
 }
 

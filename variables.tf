@@ -181,11 +181,11 @@ variable "vpc_subnet_cidr_blocks" {
               "10.0.9.0/24" ]
 }
 
-variable "cloudwatch_logs" {
-    description = "Logs to send to CLoudWatch"
-    type = string
-    default = "audit"
-}
+# variable "cloudwatch_logs" {
+#     description = "Logs to send to CLoudWatch"
+#     type = list(string)
+#     default = ["audit"]
+# }
 
 variable "region" {
     description = "region"
