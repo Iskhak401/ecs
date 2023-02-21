@@ -83,11 +83,6 @@ variable "proxy_postgres_string"{
   default = ""
 }
 
-variable "aws_cert_name"{
-  description = "Certificate of AWS"
-  default = "rds-combined-ca-bundle.p7b"
-}
-
 
 ###########################################
 ### Docdb variable set #######
@@ -242,4 +237,53 @@ variable "sns_platform_private_key" {
 variable "sns_platform_certificate" {
   description =  "APNS Certificate for IOS Developer Account"
   default = ""
+}
+
+######################################
+######### Secrets Variable set #######
+######################################
+
+variable "jwt_key" {
+  description = "JWT key"
+  default = ""
+}
+
+variable "expiration_inhour" {
+  description = "JWT ExpirationInHours"
+  default = "1"
+}
+
+variable "jwt_validate_audience" {
+  description = "JWT Validate Audience"
+  default = true
+}
+
+variable "jwt_audience" {
+  description = "JWT Audience"
+  default = "barong"
+}
+
+variable "jwt_validate_issuer" {
+  description = "JWT ValidateIssuer"
+  default = true
+}
+
+variable "jwt_issuer" {
+  description = "JWT Issuer"
+  default = "barong"
+}
+
+variable "jwt_validatekey" {
+  description = "JWT ValidateKey"
+  default = false
+}
+
+variable "appconfig_enable_invite_sms" {
+  description = "APPCONFIG EnableInviteSMS"
+  default = false
+}
+
+variable "aws_cert_name"{
+  description = "Certificate of AWS"
+  default = "rds-combined-ca-bundle.p7b"
 }

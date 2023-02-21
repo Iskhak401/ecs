@@ -84,7 +84,43 @@ resource "aws_ecs_task_definition" "friends_task_definition" {
         {
           "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:APPCONFIG__MONGODB::",
           "name": "APPCONFIG__MONGODB"
-        }      
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:JWT__Key::",
+          "name": "JWT__Key"
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:JWT__Audience::",
+          "name": "JWT__Audience"
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:JWT__ExpirationInHours::",
+          "name": "JWT__ExpirationInHours"
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:JWT__ValidateAudience::",
+          "name": "JWT__ValidateAudience"
+        },   
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:JWT__ValidateIssuer::",
+          "name": "JWT__ValidateIssuer"
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:JWT__Issuer::",
+          "name": "JWT__Issuer"
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:JWT__ValidateKey::",
+          "name": "JWT__ValidateKey"
+        },  
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:APPCONFIG__EnableInviteSMS::",
+          "name": "APPCONFIG__EnableInviteSMS"
+        }, 
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:APPCONFIG__AWSCertificateName::",
+          "name": "APPCONFIG__AWSCertificateName"
+        }  
       ],
       "dockerSecurityOptions": null,
       "memory": null,
@@ -272,7 +308,35 @@ resource "aws_ecs_task_definition" "user_task_definition" {
         {
           "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:APPCONFIG__MONGODB::",
           "name": "APPCONFIG__MONGODB"
-        }      
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:JWT__Key::",
+          "name": "JWT__Key"
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:JWT__Audience::",
+          "name": "JWT__Audience"
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:JWT__ExpirationInHours::",
+          "name": "JWT__ExpirationInHours"
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:JWT__ValidateAudience::",
+          "name": "JWT__ValidateAudience"
+        },   
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:JWT__ValidateIssuer::",
+          "name": "JWT__ValidateIssuer"
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:JWT__Issuer::",
+          "name": "JWT__Issuer"
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:JWT__ValidateKey::",
+          "name": "JWT__ValidateKey"
+        }
       ],
       "dockerSecurityOptions": null,
       "memory": null,
