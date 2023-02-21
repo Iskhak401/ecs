@@ -183,8 +183,8 @@ variable "vpc_subnet_cidr_blocks" {
 
 variable "cloudwatch_logs" {
     description = "Logs to send to CLoudWatch"
-    type = list(string)
-    default = ["audit"]
+    type = string
+    default = "audit"
 }
 
 variable "region" {
