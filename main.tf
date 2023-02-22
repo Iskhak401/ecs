@@ -13,6 +13,10 @@ terraform {
       source = "hashicorp/random"
       version = "~> 3.1.0"
     }
+    pkcs12 = {
+      source = "bendrucker/pkcs12"
+      version = "1.0.1"
+    }
   }
 }
 

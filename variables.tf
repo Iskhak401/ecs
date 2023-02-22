@@ -181,11 +181,6 @@ variable "vpc_subnet_cidr_blocks" {
               "10.0.9.0/24" ]
 }
 
-# variable "cloudwatch_logs" {
-#     description = "Logs to send to CLoudWatch"
-#     type = list(string)
-#     default = ["audit"]
-# }
 
 variable "region" {
     description = "region"
@@ -229,13 +224,8 @@ variable "logs_retention_in_days" {
   default = "90"
 }
 
-variable "sns_platform_private_key" {
-  description = "APNS Private key for IOS Developer Account"
-  default = ""
-}
-
-variable "sns_platform_certificate" {
-  description =  "APNS Certificate for IOS Developer Account"
+variable "apns_certificate_password" {
+  description = "APNS password for Certificate"
   default = ""
 }
 
