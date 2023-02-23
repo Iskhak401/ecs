@@ -223,9 +223,17 @@ variable "logs_retention_in_days" {
   description = "log retention period temp set to 90"
   default = "90"
 }
+################################################################
+######### SNS APP Platform creds for iOS and Android ###########
+################################################################
 
 variable "apns_certificate_password" {
   description = "APNS password for Certificate"
+  default = ""
+}
+
+variable "gcm_api_key" {
+  description = "GCM Api key"
   default = ""
 }
 
@@ -276,4 +284,9 @@ variable "appconfig_enable_invite_sms" {
 variable "aws_cert_name"{
   description = "Certificate of AWS"
   default = "rds-combined-ca-bundle.p7b"
+}
+
+variable "enable_random_recommended_friends" {
+  description = "Enable Random Recommended Friends"
+  default = false
 }

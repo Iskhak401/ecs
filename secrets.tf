@@ -29,5 +29,6 @@ resource "aws_secretsmanager_secret_version" "peer_version" {
     "JWT__Issuer" = var.jwt_issuer 
     "JWT__ValidateKey" = var.jwt_validatekey 
     "APPCONFIG__EnableInviteSMS" = var.appconfig_enable_invite_sms 
+    "EnableRandomRecommendedFriends" = var.enable_random_recommended_friends
   })
 }

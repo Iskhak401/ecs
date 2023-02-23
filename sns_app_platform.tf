@@ -8,3 +8,9 @@ resource "aws_sns_platform_application" "apns" {
   platform_principal = data.pkcs12_archive.apns_certificate.certificate
   platform_credential = data.pkcs12_archive.apns_certificate.private_key
 }
+
+resource "aws_sns_platform_application" "gcm" {
+  name     = "${local.env}-${local.name}-gcm-app"
+  platform            = "GCM"
+  platform_credential = var.gcm_api_key
+}
