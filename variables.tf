@@ -285,3 +285,8 @@ variable "aws_cert_name"{
   description = "Certificate of AWS"
   default = "rds-combined-ca-bundle.p7b"
 }
+
+variable "enable_random_recommended_friends" {
+  description = "Enable Random Recommended Friends"
+  default = false
+}
