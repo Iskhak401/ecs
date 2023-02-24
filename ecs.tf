@@ -119,7 +119,7 @@ resource "aws_ecs_task_definition" "friends_task_definition" {
         }, 
         {
           "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:EnableRandomRecommendedFriends::",
-          "name": "EnableRandomRecommendedFriends"
+          "name": "APPCONFIG__EnableRandomRecommendedFriends"
         }, 
         {
           "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:APPCONFIG__AWSCertificateName::",
