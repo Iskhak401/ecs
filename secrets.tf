@@ -30,5 +30,6 @@ resource "aws_secretsmanager_secret_version" "peer_version" {
     "JWT__ValidateKey" = var.jwt_validatekey 
     "APPCONFIG__EnableInviteSMS" = var.appconfig_enable_invite_sms 
     "APPCONFIG__EnableRandomRecommendedFriends" = var.enable_random_recommended_friends
+    "generated_docdb_password" = local.docdb_password
   })
 }

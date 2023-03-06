@@ -118,7 +118,7 @@ resource "aws_ecs_task_definition" "friends_task_definition" {
           "name": "APPCONFIG__EnableInviteSMS"
         }, 
         {
-          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:EnableRandomRecommendedFriends::",
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:APPCONFIG__EnableRandomRecommendedFriends::",
           "name": "APPCONFIG__EnableRandomRecommendedFriends"
         }, 
         {
