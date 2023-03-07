@@ -7,10 +7,10 @@ resource "aws_ecs_cluster" "peer_ecs_cluster" {
   name = "${local.name}-${local.env}-ecs-cluster"
 }
 
-# #chat
-# resource "aws_ecs_cluster" "chat_ecs_cluster" {
-#   name = "${local.name}-${local.chat_resource}-ecs-cluster"
-# }
+#chat
+resource "aws_ecs_cluster" "chat_ecs_cluster" {
+  name = "${local.name}-${local.chat_resource}-ecs-cluster"
+}
 
 # #user
 # resource "aws_ecs_cluster" "user_ecs_cluster" {
@@ -455,7 +455,7 @@ data "aws_ecs_task_definition" "chat_task_definition" {
 
 resource "aws_ecs_service" "chat_service" {
   name          = "${local.name}-${local.chat_resource}-service"
-  cluster       = aws_ecs_cluster.peer_ecs_cluster.id
+  cluster       = aws_ecs_cluster.chat_ecs_cluster.id
   desired_count = 1
   launch_type = "FARGATE"
   force_new_deployment = true
