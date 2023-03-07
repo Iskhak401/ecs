@@ -15,13 +15,13 @@ resource "aws_appautoscaling_target" "user_scale_target" {
 }
 
 
-# resource "aws_appautoscaling_target" "chat_scale_target" {
-#   service_namespace  = "ecs"
-#   resource_id        = "service/${aws_ecs_cluster.chat_ecs_cluster.name}/${aws_ecs_service.chat_service.name}"
-#   scalable_dimension = "ecs:service:DesiredCount"
-#   max_capacity       = var.ecs_autoscale_max_instances
-#   min_capacity       = var.ecs_autoscale_min_instances
-# }
+resource "aws_appautoscaling_target" "chat_scale_target" {
+  service_namespace  = "ecs"
+  resource_id        = "service/${aws_ecs_cluster.peer_ecs_cluster.name}/${aws_ecs_service.chat_service.name}"
+  scalable_dimension = "ecs:service:DesiredCount"
+  max_capacity       = var.ecs_autoscale_max_instances
+  min_capacity       = var.ecs_autoscale_min_instances
+}
 
 
 
