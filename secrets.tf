@@ -31,5 +31,7 @@ resource "aws_secretsmanager_secret_version" "peer_version" {
     "APPCONFIG__EnableInviteSMS" = var.appconfig_enable_invite_sms 
     "APPCONFIG__EnableRandomRecommendedFriends" = var.enable_random_recommended_friends
     "generated_docdb_password" = local.docdb_password
+    "APNS__PlatformApplicationArn" = aws_sns_platform_application.apns.arn
+    "GCM__PlatformApplicationArn" = aws_sns_platform_application.gcm.arn
   })
 }

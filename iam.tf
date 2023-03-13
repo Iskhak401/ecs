@@ -34,7 +34,8 @@ module "user_group"{
         data.aws_iam_policy.AmazonEC2ContainerRegistryFullAccess.arn,
         data.aws_iam_policy.AmazonS3FullAccess.arn,
         data.aws_iam_policy.ReadOnlyAccess.arn,
-        data.aws_iam_policy.AmazonECS_FullAccess.arn
+        data.aws_iam_policy.AmazonECS_FullAccess.arn,
+        data.aws_iam_policy.AmazonSNSFullAccess.arn
     ]
 }
 
@@ -189,4 +190,7 @@ data "aws_iam_policy" "AmazonECSTaskExecutionRolePolicy" {
 
 data "aws_iam_policy" "AWSCodeArtifactAdminAccess" {
     name = "AWSCodeArtifactAdminAccess"
+}
+data "aws_iam_policy" "AmazonSNSFullAccess" {
+    name = "AmazonSNSFullAccess"
 }
