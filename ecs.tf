@@ -124,7 +124,15 @@ resource "aws_ecs_task_definition" "friends_task_definition" {
         {
           "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:APPCONFIG__AWSCertificateName::",
           "name": "APPCONFIG__AWSCertificateName"
-        }  
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:APNS__PlatformApplicationArn::",
+          "name": "APNS__PlatformApplicationArn"
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:GCM__PlatformApplicationArn::",
+          "name": "GCM__PlatformApplicationArn"
+        }    
       ],
       "dockerSecurityOptions": null,
       "memory": null,
@@ -258,7 +266,15 @@ resource "aws_ecs_task_definition" "chat_task_definition" {
         {
           "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:APPCONFIG__AWSCertificateName::",
           "name": "APPCONFIG__AWSCertificateName"
-        }  
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:APNS__PlatformApplicationArn::",
+          "name": "APNS__PlatformApplicationArn"
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:GCM__PlatformApplicationArn::",
+          "name": "GCM__PlatformApplicationArn"
+        }   
       ],
       "dockerSecurityOptions": null,
       "memory": null,
@@ -380,7 +396,15 @@ resource "aws_ecs_task_definition" "user_task_definition" {
         {
           "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:JWT__ValidateKey::",
           "name": "JWT__ValidateKey"
-        }
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:APNS__PlatformApplicationArn::",
+          "name": "APNS__PlatformApplicationArn"
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:GCM__PlatformApplicationArn::",
+          "name": "GCM__PlatformApplicationArn"
+        }  
       ],
       "dockerSecurityOptions": null,
       "memory": null,

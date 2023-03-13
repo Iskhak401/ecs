@@ -13,4 +13,5 @@ resource "aws_sns_platform_application" "gcm" {
   name     = "${local.env}-${local.name}-gcm-app"
   platform            = "GCM"
   platform_credential = var.gcm_api_key
+  success_feedback_sample_rate = 100
 }
