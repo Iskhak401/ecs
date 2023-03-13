@@ -25,7 +25,7 @@ locals{
     
 
     friends_resource = "friends"
-    # chat_resource = "chat"
+    chat_resource = "chat"
     user_resource = "user"
     max_ecr = var.max_ecr_image
     anywhere_ip = "0.0.0.0/0"
