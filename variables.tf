@@ -68,6 +68,11 @@ variable "container_port"{
   default = 5000
 }
 
+variable "chat_server_container_port" {
+  description = "Chat Server port number"
+  default = 4000
+}
+
 variable "task_cpu_unit"{
   description = "ecs task definition cpu unit size"
   default = 512
