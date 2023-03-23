@@ -8,6 +8,11 @@ definitions:
                 - terraform init -backend-config="bucket=${AWS_S3_STATE_BUCKET}"                  
                 - terraform plan                                                       
                 - terraform apply -input=false -auto-approve
+    - step: &validate-plan
+        script:
+            - terraform init -backend-config="bucket=${AWS_S3_STATE_BUCKET}"
+            - terraform plan
+         
 
 pipelines:
     custom:
@@ -16,7 +21,7 @@ pipelines:
                 <<: *validate-plan-apply
                 deployment: Production                
     branches:
-        master:        
+        development:        
             - step:
                 <<: *validate-plan-apply
                 deployment: Development
@@ -24,4 +29,7 @@ pipelines:
             - step:
                 <<: *validate-plan-apply
                 deployment: Staging          
-            
+        'feature/*':
+            - step:
+                <<: *validate-plan
+                deployment: Development
