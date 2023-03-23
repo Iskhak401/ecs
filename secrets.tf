@@ -15,6 +15,7 @@ resource "aws_secretsmanager_secret_version" "peer_version" {
   secret_string = jsonencode({
 
     "APPCONFIG__S3BUCKET" = local.s3_bucket
+    "APPCONFIG__S3BucketUrl" = local.s3_bucket_url
     "AWS__AccessKey" = local.app_access_key
     "AWS__SecretKey" = local.app_secret_key
     "ConnectionStrings__Redis" = local.redis_string
