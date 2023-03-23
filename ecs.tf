@@ -132,6 +132,10 @@ resource "aws_ecs_task_definition" "friends_task_definition" {
         {
           "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:Notification__GCMPlatformARN::",
           "name": "Notification__GCMPlatformARN"
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:APPCONFIG__S3BucketUrl::",
+          "name": "APPCONFIG__S3BucketUrl"
         }    
       ],
       "dockerSecurityOptions": null,
@@ -274,7 +278,11 @@ resource "aws_ecs_task_definition" "chat_task_definition" {
         {
           "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:Notification__GCMPlatformARN::",
           "name": "Notification__GCMPlatformARN"
-        }   
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:APPCONFIG__S3BucketUrl::",
+          "name": "APPCONFIG__S3BucketUrl"
+        }  
       ],
       "dockerSecurityOptions": null,
       "memory": null,
@@ -404,7 +412,11 @@ resource "aws_ecs_task_definition" "user_task_definition" {
         {
           "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:Notification__GCMPlatformARN::",
           "name": "Notification__GCMPlatformARN"
-        }  
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:APPCONFIG__S3BucketUrl::",
+          "name": "APPCONFIG__S3BucketUrl"
+        } 
       ],
       "dockerSecurityOptions": null,
       "memory": null,

@@ -293,5 +293,5 @@ variable "aws_cert_name"{
 
 variable "enable_random_recommended_friends" {
   description = "Enable Random Recommended Friends"
-  default = false
+  default = true
 }

@@ -21,9 +21,9 @@ locals{
     redis_string = data.aws_elasticache_replication_group.friends_redis_replica.primary_endpoint_address
     mongoDB_string = "mongodb://${var.db_username}:${local.docdb_password}@${aws_docdb_cluster.service.endpoint}:${var.docdb_port_number}/${local.db_name}?ssl=true&ssl_ca_certs=rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
     s3_bucket = module.s3_bucket.s3_bucket_id
+    s3_bucket_url = "https://${module.s3_bucket.s3_bucket_id}.s3.${local.region}.amazonaws.com"
     db_name = "${var.db_name}-${var.environment}"
     
-
     friends_resource = "friends"
     chat_resource = "chat"
     chat_server_resource = "chat-server"
