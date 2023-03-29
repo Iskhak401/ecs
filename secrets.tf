@@ -34,5 +34,6 @@ resource "aws_secretsmanager_secret_version" "peer_version" {
     "generated_docdb_password" = local.docdb_password
     "Notification__APNSPlatformARN" = aws_sns_platform_application.apns.arn
     "Notification__GCMPlatformARN" = aws_sns_platform_application.gcm.arn
+    "APPCONFIG__AppPrefix" = local.name
   })
 }

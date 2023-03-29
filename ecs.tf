@@ -674,6 +674,10 @@ resource "aws_ecs_task_definition" "chat_server_task_definition" {
         {
           "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:Notification__GCMPlatformARN::",
           "name": "Notification__GCMPlatformARN"
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:APPCONFIG__AppPrefix::",
+          "name": "APPCONFIG__AppPrefix"
         }    
       ],
       "dockerSecurityOptions": null,
