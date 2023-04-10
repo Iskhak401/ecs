@@ -289,6 +289,12 @@ module "chat_server_alb" {
       backend_port         = 4000
       target_type          = "ip"
       deregistration_delay = 10
+      load_balancing_algorithm_type = "least_outstanding_requests"
+      stickiness = {
+        enabled  = true
+        type     = "lb_cookie"
+        duration = 3600
+      }
       health_check = {
         enabled             = true
         interval            = 30

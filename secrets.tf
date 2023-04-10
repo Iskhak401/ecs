@@ -35,5 +35,10 @@ resource "aws_secretsmanager_secret_version" "peer_version" {
     "Notification__APNSPlatformARN" = aws_sns_platform_application.apns.arn
     "Notification__GCMPlatformARN" = aws_sns_platform_application.gcm.arn
     "APPCONFIG__AppPrefix" = local.name
+    "AppConfig__SQSUrl" = "https://sqs.us-west-2.amazonaws.com/448796917384/testQueue.fifo"
+    "AppConfig__CachedMessageLimit" = 100
+    "Cache__ExpiryTimeSeconds" = 4
+    "Cache__WaitTimeSeconds" = 2
+    "Cache__RetryTimeMilliseconds" = 250
   })
 }
