@@ -172,7 +172,7 @@ module "chat_server_cloudfront" {
 
   origin = {
     alb = {
-      domain_name = module.chat_alb.lb_dns_name
+      domain_name = module.chat_server_alb.lb_dns_name
       custom_origin_config = {
         http_port              = 80
         https_port             = 443

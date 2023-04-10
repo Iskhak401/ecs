@@ -678,7 +678,27 @@ resource "aws_ecs_task_definition" "chat_server_task_definition" {
         {
           "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:APPCONFIG__AppPrefix::",
           "name": "APPCONFIG__AppPrefix"
-        }    
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:AppConfig__SQSUrl::",
+          "name": "AppConfig__SQSUrl"
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:AppConfig__CachedMessageLimit::",
+          "name": "AppConfig__CachedMessageLimit"          
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:Cache__ExpiryTimeSeconds::",
+          "name": "AppConfiCache__ExpiryTimeSecondsg__SQSUrl"
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:Cache__WaitTimeSeconds::",
+          "name": "Cache__WaitTimeSeconds"
+        },
+        {
+          "valueFrom": "${aws_secretsmanager_secret.peer_secret.id}:Cache__RetryTimeMilliseconds::",
+          "name": "Cache__RetryTimeMilliseconds"
+        }   
       ],
       "dockerSecurityOptions": null,
       "memory": null,
