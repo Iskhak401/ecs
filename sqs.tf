@@ -1,5 +1,5 @@
-resource "aws_sqs_queue" "terraform_queue" {
-  name                        = "${local.env}-${local.chat_server_resource}-sqs"
+resource "aws_sqs_queue" "sqs-queue" {
+  name                        = "${local.env}-${local.chat_server_resource}-sqs.fifo"
   fifo_queue                  = true
   visibility_timeout_seconds  = 30
   message_retention_seconds   = 345600 # 4 days in seconds

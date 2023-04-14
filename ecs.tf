@@ -164,7 +164,7 @@ resource "aws_ecs_task_definition" "friends_task_definition" {
     }
 ]
 TASK_DEFINITION
-  
+
 }
 
 #chat
@@ -310,7 +310,7 @@ resource "aws_ecs_task_definition" "chat_task_definition" {
     }
 ]
 TASK_DEFINITION
-  
+
 }
 
 #user
@@ -444,7 +444,7 @@ resource "aws_ecs_task_definition" "user_task_definition" {
     }
 ]
 TASK_DEFINITION
-  
+
 }
 
 
@@ -459,12 +459,12 @@ data "aws_ecs_task_definition" "friends_task_definition" {
 }
 
 resource "aws_ecs_service" "friends_service" {
-  name          = "${local.name}-${local.friends_resource}-service"
-  cluster       = aws_ecs_cluster.peer_ecs_cluster.id
-  desired_count = 1
-  launch_type = "FARGATE"
+  name                 = "${local.name}-${local.friends_resource}-service"
+  cluster              = aws_ecs_cluster.peer_ecs_cluster.id
+  desired_count        = 2
+  launch_type          = "FARGATE"
   force_new_deployment = true
-  
+
 
   # Track the latest ACTIVE revision
   task_definition = data.aws_ecs_task_definition.friends_task_definition.arn
@@ -472,14 +472,14 @@ resource "aws_ecs_service" "friends_service" {
   load_balancer {
     #elb_name = module.friends_alb.lb_id
     target_group_arn = module.friends_alb.target_group_arns[0]
-    container_name = "${local.name}-${local.friends_resource}-container"
-    container_port = var.container_port
+    container_name   = "${local.name}-${local.friends_resource}-container"
+    container_port   = var.container_port
   }
 
   network_configuration {
-    subnets = [ module.vpc.private_subnets[0], module.vpc.private_subnets[1] ]
+    subnets          = [module.vpc.private_subnets[0], module.vpc.private_subnets[1]]
     assign_public_ip = false
-    security_groups = [ aws_security_group.friends_service_sg.id]
+    security_groups  = [aws_security_group.friends_service_sg.id]
   }
 }
 
@@ -490,13 +490,13 @@ data "aws_ecs_task_definition" "chat_task_definition" {
 }
 
 resource "aws_ecs_service" "chat_service" {
-  name          = "${local.name}-${local.chat_resource}-service"
-  cluster       = aws_ecs_cluster.chat_ecs_cluster.id
-  desired_count = 1
-  launch_type = "FARGATE"
+  name                 = "${local.name}-${local.chat_resource}-service"
+  cluster              = aws_ecs_cluster.chat_ecs_cluster.id
+  desired_count        = 1
+  launch_type          = "FARGATE"
   force_new_deployment = true
 
-  
+
 
   # Track the latest ACTIVE revision
   task_definition = data.aws_ecs_task_definition.chat_task_definition.arn
@@ -504,14 +504,14 @@ resource "aws_ecs_service" "chat_service" {
   load_balancer {
     #elb_name = module.chat_alb.lb_id
     target_group_arn = module.chat_alb.target_group_arns[0]
-    container_name = "${local.name}-${local.chat_resource}-container"
-    container_port = var.container_port
+    container_name   = "${local.name}-${local.chat_resource}-container"
+    container_port   = var.container_port
   }
 
   network_configuration {
-    subnets = [ module.vpc.private_subnets[0], module.vpc.private_subnets[1] ]
+    subnets          = [module.vpc.private_subnets[0], module.vpc.private_subnets[1]]
     assign_public_ip = false
-    security_groups = [ aws_security_group.chat_service_sg.id]
+    security_groups  = [aws_security_group.chat_service_sg.id]
   }
 }
 
@@ -522,13 +522,13 @@ data "aws_ecs_task_definition" "user_task_definition" {
 }
 
 resource "aws_ecs_service" "user_service" {
-  name          = "${local.name}-${local.user_resource}-service"
-  cluster       = aws_ecs_cluster.peer_ecs_cluster.id
-  desired_count = 1
-  launch_type = "FARGATE"
+  name                 = "${local.name}-${local.user_resource}-service"
+  cluster              = aws_ecs_cluster.peer_ecs_cluster.id
+  desired_count        = 1
+  launch_type          = "FARGATE"
   force_new_deployment = true
 
-  
+
 
   # Track the latest ACTIVE revision
   task_definition = data.aws_ecs_task_definition.user_task_definition.arn
@@ -536,14 +536,14 @@ resource "aws_ecs_service" "user_service" {
   load_balancer {
     #elb_name = module.chat_alb.lb_id
     target_group_arn = module.user_alb.target_group_arns[0]
-    container_name = "${local.name}-${local.user_resource}-container"
-    container_port = var.container_port
+    container_name   = "${local.name}-${local.user_resource}-container"
+    container_port   = var.container_port
   }
 
   network_configuration {
-    subnets = [ module.vpc.private_subnets[0], module.vpc.private_subnets[1] ]
+    subnets          = [module.vpc.private_subnets[0], module.vpc.private_subnets[1]]
     assign_public_ip = false
-    security_groups = [ aws_security_group.user_service_sg.id]
+    security_groups  = [aws_security_group.user_service_sg.id]
   }
 }
 
@@ -726,7 +726,7 @@ resource "aws_ecs_task_definition" "chat_server_task_definition" {
     }
 ]
 TASK_DEFINITION
-  
+
 }
 
 data "aws_ecs_task_definition" "chat_server_task_definition" {
@@ -734,12 +734,12 @@ data "aws_ecs_task_definition" "chat_server_task_definition" {
 }
 
 resource "aws_ecs_service" "chat_server_service" {
-  name          = "${local.name}-${local.chat_server_resource}-service"
-  cluster       = aws_ecs_cluster.chat_server_ecs_cluster.id
-  desired_count = 1
-  launch_type = "FARGATE"
+  name                 = "${local.name}-${local.chat_server_resource}-service"
+  cluster              = aws_ecs_cluster.chat_server_ecs_cluster.id
+  desired_count        = 1
+  launch_type          = "FARGATE"
   force_new_deployment = true
-  
+
 
   # Track the latest ACTIVE revision
   task_definition = data.aws_ecs_task_definition.chat_server_task_definition.arn
@@ -747,14 +747,14 @@ resource "aws_ecs_service" "chat_server_service" {
   load_balancer {
     #elb_name = module.chat_server_alb.lb_id
     target_group_arn = module.chat_server_alb.target_group_arns[0]
-    container_name = "${local.name}-${local.chat_server_resource}-container"
-    container_port = var.chat_server_container_port
+    container_name   = "${local.name}-${local.chat_server_resource}-container"
+    container_port   = var.chat_server_container_port
   }
 
   network_configuration {
-    subnets = [ module.vpc.private_subnets[0], module.vpc.private_subnets[1] ]
+    subnets          = [module.vpc.private_subnets[0], module.vpc.private_subnets[1]]
     assign_public_ip = false
-    security_groups = [ aws_security_group.chat_server_service_sg.id]
+    security_groups  = [aws_security_group.chat_server_service_sg.id]
   }
 }
 
